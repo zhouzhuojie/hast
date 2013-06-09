@@ -1,0 +1,21 @@
+<template name="header">
+  <header class="navbar navbar-fixed-top">
+    <div class="navbar-inner customized">
+      <a class="brand" href="/">Hast</a>
+      <ul class="nav">
+        <li class="">
+          <a href="{{homePath}}">New</a>
+        </li>
+        <li class="">
+          <a href="{{archivesPath}}">Archives</a>
+        </li>
+      </ul>
+      <ul class="nav sign-in-buttons">
+        <li><span class="act act-primary sign-in-buttons">{{loginButtons align="right"}}</span></li>
+      </ul>
+      <ul class="nav pull-right sign-in-buttons">
+        <li class="saving-btn-wrapper"><span class="label label-warning" id="saving-btn"></span></li>
+      </ul>
+    </div>
+  </header>
+</template>

@@ -1,0 +1,59 @@
+{
+  "meteor": {
+    "git": "https://github.com/meteor/meteor.git",
+    "branch": "master",
+    "commit": "5d736d4bf0448c7db1f9b47124dfafc34a9631bb"
+  },
+  "dependencies": {
+    "basePackages": {
+      "router": {},
+      "accounts-ui-bootstrap-dropdown": {},
+      "spin": {},
+      "bootstrap-jasny": {},
+      "ace": {},
+      "mathjax": {}
+    },
+    "packages": {
+      "router": {
+        "git": "https://github.com/tmeasday/meteor-router.git",
+        "tag": "v0.5.1",
+        "commit": "32e377c7703bb119acccc859fc7296882903cbe7"
+      },
+      "accounts-ui-bootstrap-dropdown": {
+        "git": "https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown.git",
+        "tag": "v0.1.0",
+        "commit": "e66558aaa4dc0d85c6ddb63bd2289b38c2b793f6"
+      },
+      "spin": {
+        "git": "https://github.com/SachaG/meteor-spin.git",
+        "tag": "v0.2.0",
+        "commit": "fd3a2871a69442848b4b4e74f5e1ae28fa4a95a4"
+      },
+      "bootstrap-jasny": {
+        "git": "https://github.com/limeyd/meteor-bootstrap-jasny.git",
+        "tag": "v1.1.0",
+        "commit": "8ef08074dbfb60c462432c50957604cbef3e976d"
+      },
+      "ace": {
+        "git": "https://github.com/Jay-Oh-eN/meteor-ace.git",
+        "tag": "v1.0.0",
+        "commit": "01eb5802a48d6c44f038132c75bb92138569b000"
+      },
+      "mathjax": {
+        "git": "https://github.com/apendua/meteor-mathjax.git",
+        "tag": "v0.5.0",
+        "commit": "8f2a736f2ccce5c13898d6fe015a525f8fd0b18d"
+      },
+      "page-js-ie-support": {
+        "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
+        "tag": "v1.3.5",
+        "commit": "b99ed8380aefd10b2afc8f18d9eed4dd0d8ea9cb"
+      },
+      "module-loader": {
+        "git": "https://github.com/apendua/module-loader.git",
+        "tag": "v0.5.0",
+        "commit": "6c7bdce38f1f2c4d888219f7ef53170738b31867"
+      }
+    }
+  }
+}
