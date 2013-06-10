@@ -1,14 +1,7 @@
 {
-  "meteor": {
-    "git": "https://github.com/meteor/meteor.git",
-    "branch": "master"
-  },
   "packages": {
     "router": {},
     "accounts-ui-bootstrap-dropdown": {},
-    "spin": {},
-    "bootstrap-jasny": {},
-    "ace": {},
-    "mathjax": {}
+    "bootstrap-jasny": {}
   }
 }

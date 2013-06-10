@@ -8,7 +8,7 @@ Template.newHast.rendered = function(){
     "MathJax.Hub.Config({" +
     "  tex2jax: { inlineMath: [['$','$'], ['\\\\(','\\\\)']] }," +
     "  processEscapes: true" +
-    "});"
+    "});";
   head.appendChild(script);
   script = document.createElement("script");
   script.type = "text/javascript";
@@ -40,7 +40,7 @@ Template.newHast.rendered = function(){
         _.map(Mds, function(slide, key){
         if (key === 0){
           return '<section class="slide" id="title-slide">' + c.makeHtml(slide) + '</section>';
-        };
+        }
         return '<section class="slide">' + c.makeHtml(slide) + '</section>';
       }),
       function(a,b){return a+b;}
@@ -54,7 +54,7 @@ Template.newHast.rendered = function(){
   refreshDeck();
   window.flashMessage = function(message){
     $('#saving-btn').html(message).fadeIn(500).fadeOut(3000);
-  }
+  };
 
   var myTimer = function(){
 
@@ -110,15 +110,15 @@ Template.newHast.events({
   'click .save-btn': function(){
     if(Meteor.user()){
       var getTitle = function(){
-        var titleString = converter.makeHtml(editor.getValue().split('////')[0]).split('\n')[0]
-        if (titleString.indexOf('<h1>') == 0){
+        var titleString = converter.makeHtml(editor.getValue().split('////')[0]).split('\n')[0];
+        if (titleString.indexOf('<h1>') === 0){
           return titleString.slice(4,-5);
         }
         else{
           return '';
         }
       };
-      var file = Files.findOne()
+      var file = Files.findOne();
       Meteor.call('addFile', {title: getTitle(), content: editor.getValue(), test: file.test, fileId: file._id}, function(error, result){
         flashMessage(result.message);
         Meteor.Router.to('/hast/' + result.fileId);
