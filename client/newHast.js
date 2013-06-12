@@ -1,40 +1,46 @@
-Template.newHast.rendered = function(){
-
-  (function () {
-  var head = document.getElementsByTagName("head")[0], script;
-  script = document.createElement("script");
-  script.type = "text/x-mathjax-config";
-  script[(window.opera ? "innerHTML" : "text")] =
-    "MathJax.Hub.Config({" +
-    "  tex2jax: { inlineMath: [['$','$'], ['\\\\(','\\\\)']] }," +
-    "  processEscapes: true" +
-    "});";
-  head.appendChild(script);
-  script = document.createElement("script");
-  script.type = "text/javascript";
-  script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-  head.appendChild(script);
-  })();
-
-  window.currentSlide = 0;
-  $(document).on('deck.change', function(event, from, to){
-    currentSlide = to;
-  });
+Template.newHast.rendered = function() {
 
   window.editor = ace.edit("editor");
   window.converter = new Markdown.Converter();
+  window.currentSlide = 0;
   editor.setTheme("ace/theme/chrome");
   editor.getSession().setMode("ace/mode/markdown");
   editor.getSession().setUseWrapMode(true);
-  if (window.test === false){
-    editor.setValue(Files.findOne(window.hastId) || 'Loading...', -1);
+
+  if (Session.get('test')){
+    Meteor.subscribe('newHast', function(){
+      var file = Files.findOne({test:true});
+      Session.set('hastId', file._id);
+      editor.setValue(localStorage.getItem(Session.get('hastId')) || file.content || 'loading...', -1);
+    });
   }
   else{
-    editor.setValue(localStorage.getItem('testContent') || Files.findOne(window.hastId) || 'Loading...', -1);
+    Meteor.subscribe('Hast', Session.get('hastId'), function(){
+      var file = Files.findOne(Session.get('hastId'));
+      if(file){
+        editor.setValue(file.content || 'loading...', -1);
+      }
+      else{
+        flashMessage("Not found!");
+      }
+    });
+  }
+
+  $(document).on('deck.change', function(event, from, to){
+    window.currentSlide = to;
+    $.deck('getSlide', from).attr('id', '');
+    $.deck('getSlide', to).attr('id', 'deck-current');
+  });
+
+  if (Session.get('test') === false){
+    editor.setValue(Files.findOne(Session.get('hastId')) || 'Loading...', -1);
+  }
+  else{
+    editor.setValue(localStorage.getItem(Session.get('hastId')) || Files.findOne(Session.get('hastId')) || 'Loading...', -1);
   }
 
   window.refreshDeck = function(){
-    var slidesMd = editor.getValue().split('////');
+    var slidesMd = editor.getValue().replace(/\\\\/g,'\\\\\\\\').split('////');
     var getSlidesHtmls = function(Mds, c){
       return  _.reduce(
         _.map(Mds, function(slide, key){
@@ -50,13 +56,13 @@ Template.newHast.rendered = function(){
     $.deck('.slide');
     $.deck('go', currentSlide);
   };
-
   refreshDeck();
+
   window.flashMessage = function(message){
-    $('#saving-btn').html(message).fadeIn(500).fadeOut(3000);
+    $('#message-notice').html(message).fadeIn(500).fadeOut(3000);
   };
 
-  var myTimer = function(){
+  var myTimer = (function(){
 
     var timer;
 
@@ -77,20 +83,37 @@ Template.newHast.rendered = function(){
     };
 
     return this;
-  }();
+  }());
+
+  (function () {
+  var head = document.getElementsByTagName("head")[0], script;
+  script = document.createElement("script");
+  script.type = "text/x-mathjax-config";
+  script[(window.opera ? "innerHTML" : "text")] =
+    "MathJax.Hub.Config({" +
+    "  tex2jax: { inlineMath: [['$','$'], ['\\\\(','\\\\)']] }," +
+    "  processEscapes: true" +
+    "});";
+  head.appendChild(script);
+  script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+  head.appendChild(script);
+  })();
 
   editor.on("change", function(){
     myTimer.clear();
     myTimer.setRefresh(function(){
       refreshDeck();
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,"deck-current"]);
     });
     myTimer.setSave(function(){
-      if (window.test === false){
-        Files.update(window.hastId, {$set: {content: editor.getValue()}});
+      if (Session.get('test') === false){
+        Files.update(Session.get('hastId'), {$set: {content: editor.getValue()}});
         flashMessage('Saved in server');
       }
       else{
-        localStorage.setItem('testContent', editor.getValue());
+        localStorage.setItem(Session.get('hastId'), editor.getValue());
         flashMessage('Saved in local');
       }
       if (window.MathJax){
@@ -102,7 +125,7 @@ Template.newHast.rendered = function(){
     if (window.MathJax){
       MathJax.Hub.Queue(["Typeset",MathJax.Hub,"deck-container"]);
     }
-  }, 3000);
+  }, 1000);
 
 };
 

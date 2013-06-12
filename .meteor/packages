@@ -7,6 +7,6 @@ preserve-inputs
 router
 bootstrap-jasny
 stylus
-accounts-ui
-accounts-password
 coffeescript
+accounts-password
+underscore

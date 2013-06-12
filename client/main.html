@@ -2,12 +2,7 @@
 <title>Hast</title>
 </head>
 <body>
-<div>
-  {{> header}}
-  <div id="main">
-    {{#isolate}} {{renderPage}} {{/isolate}}
-  </div>
-</div>
+  {{#isolate}} {{renderPage}} {{/isolate}}
 </body>
 
 <template name="header">
@@ -22,16 +17,22 @@
           <a href="{{archivesPath}}">Archives</a>
         </li>
       </ul>
-      <ul class="nav sign-in-buttons">
-        <li><span class="act act-primary sign-in-buttons">{{loginButtons align="right"}}</span></li>
+      <ul class="nav">
+        <li>{{loginButtons}}</li>
       </ul>
-      <ul class="nav pull-right sign-in-buttons">
-        <li class="saving-btn-wrapper"><span class="label label-warning" id="saving-btn"></span></li>
+      <ul class="nav pull-right messages">
+        <li class="message-notice-wrapper"><span class="label label-warning" id="message-notice"></span></li>
       </ul>
     </div>
   </header>
 </template>
 
 <template name="not_found">
+{{> header}}
+<h1>404 Not Found!</h1>
+</template>
+
+<template name="oldHast">
+{{> header}}
 <h1>404 Not Found!</h1>
 </template>
