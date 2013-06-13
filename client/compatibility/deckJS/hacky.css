@@ -10,7 +10,7 @@
   font-size: 1.35em;
 }
 .deck-container > .slide {
-  /*background-color: #eee;*/
+  background-color: #FFFFFF;
   text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
   color: #444;
 }

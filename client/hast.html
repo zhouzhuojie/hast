@@ -1,7 +1,6 @@
-<template name="newHast">
+<template name="Hast">
 {{> header}}
-{{#constant}}
-<div class="new-hast-box">
+<div class="new-hast-box demo-{{isDemoMode}} fullscreen-{{isInFullScreen}}">
   <div class="deck-box">
     <div class="deck-container" id="deck-container">
     </div>
@@ -21,5 +20,4 @@
     </div>
   </div>
 </div>
-{{/constant}}
 </template>
