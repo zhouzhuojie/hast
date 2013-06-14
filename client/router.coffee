@@ -8,6 +8,7 @@
     ''
 
 Meteor.Router.add
+
   "/":
     as: "home"
     to: ->

@@ -152,5 +152,5 @@ Template.Hast.events
     panel.refreshMathJax 'deck-container'
 
   "click .full-screen-btn": ->
-    panel = window.panel
-    panel.refreshMathJax 'deck-container'
+    Session.set 'isInFullScreen', true
+
