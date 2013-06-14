@@ -18,13 +18,23 @@ Template.Hast.rendered = ->
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
-      , 3000)
+      , 1300)
     setTimerRefresh: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
       , 300)
     setTimerClear: =>
       Meteor.clearInterval @timer
+
+    saveData: =>
+      if @isDemoMode
+        localStorage.setItem Session.get("hastId"), @editor.getValue()
+        @flashMessage "Saved in local"
+      else
+        Files.update Session.get("hastId"), $set:
+          content: @editor.getValue()
+        @flashMessage "Saved in server"
+
 
     init: ->
       @isDemoMode = Session.get 'test'
@@ -40,25 +50,15 @@ Template.Hast.rendered = ->
           @refreshMathJax("deck-current")
 
         @setTimerSave =>
-          if @isDemoMode
-            localStorage.setItem Session.get("hastId"), @editor.getValue()
-            @flashMessage "Saved in local"
-          else
-            Files.update Session.get("hastId"), $set:
-              content: @editor.getValue()
-            @flashMessage "Saved in server"
+          @saveData()
           @refreshMathJax("deck-container")
 
       @setData()
       @setMathJax()
       if Session.get('isInFullScreen') is true
-        $('.deck-container').addClass('inFullScreen')
-        $('.navbar').addClass('inFullScreen')
-        $('.editor-box').addClass('inFullScreen')
+        $('.full-screen-related').addClass('inFullScreen')
       else
-        $('.deck-container').removeClass('inFullScreen')
-        $('.navbar').removeClass('inFullScreen')
-        $('.editor-box').removeClass('inFullScreen')
+        $('.full-screen-related').removeClass('inFullScreen')
 
     setMathJax: ->
       (->
@@ -85,7 +85,7 @@ Template.Hast.rendered = ->
       MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
 
     flashMessage: (message)->
-      $("#message-notice").html(message).fadeIn(500).fadeOut 3000
+      $("#message-notice").html(message).fadeIn(500).fadeOut(800)
 
     refreshDeck: ->
       slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\").split("////")
@@ -148,9 +148,12 @@ Template.Hast.events
       panel.flashMessage "Please log in to save your own files"
 
   "click .mathjax-btn": ->
-    panel = window.panel
-    panel.refreshMathJax 'deck-container'
+    window.panel.refreshMathJax 'deck-container'
 
   "click .full-screen-btn": ->
     Session.set 'isInFullScreen', true
+
+  "click .exit-full-screen-btn": ->
+    window.panel.saveData()
+    Session.set 'isInFullScreen', false
 
