@@ -1,8 +1,7 @@
 {
   "packages": {
     "router": {},
-    "accounts-ui-bootstrap-dropdown": {},
-    "bootstrap-jasny": {},
-    "moment": {}
+    "moment": {},
+    "accounts-ui-bootstrap-dropdown": {}
   }
 }

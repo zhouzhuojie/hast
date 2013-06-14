@@ -115,6 +115,7 @@ Template.Hast.rendered = ->
           file = Files.findOne(Session.get("hastId"))
           if file
             @editor.setValue file.content or "loading...", -1
+
           else
             @flashMessage "Not found!"
       @refreshDeck()
