@@ -5,8 +5,8 @@
 
 preserve-inputs
 router
-bootstrap-jasny
 stylus
 coffeescript
 accounts-password
 underscore
+bootstrap

@@ -2,6 +2,7 @@
   "packages": {
     "router": {},
     "accounts-ui-bootstrap-dropdown": {},
-    "bootstrap-jasny": {}
+    "bootstrap-jasny": {},
+    "moment": {}
   }
 }

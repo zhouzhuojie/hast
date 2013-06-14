@@ -18,7 +18,7 @@ Template.Hast.rendered = ->
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
-      , 1300)
+      , 2500)
     setTimerRefresh: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
@@ -28,7 +28,7 @@ Template.Hast.rendered = ->
 
     saveData: =>
       if @isDemoMode
-        localStorage.setItem Session.get("hastId"), @editor.getValue()
+        localStorage.setItem 'demoContent', @editor.getValue()
         @flashMessage "Saved in local"
       else
         Files.update Session.get("hastId"), $set:
@@ -85,7 +85,7 @@ Template.Hast.rendered = ->
       MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
 
     flashMessage: (message)->
-      $("#message-notice").html(message).fadeIn(500).fadeOut(800)
+      $("#message-notice").html(message).fadeIn(500).fadeOut(2000)
 
     refreshDeck: ->
       slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\").split("////")
@@ -107,7 +107,7 @@ Template.Hast.rendered = ->
         Meteor.subscribe "newHast", =>
           file = Files.findOne(test: true)
           Session.set "hastId", file._id
-          @editor.setValue localStorage.getItem(Session.get("hastId")) or
+          @editor.setValue localStorage.getItem('demoContent') or
             file.content or "loading...",
             -1
       else
@@ -124,8 +124,8 @@ Template.Hast.rendered = ->
 
 Template.Hast.events
   "click .save-btn": ->
+    panel = window.panel
     if Meteor.user()
-      panel = window.panel
       getTitle = ->
         titleString = panel.converter.makeHtml(
           panel.editor.getValue().split("////")[0]

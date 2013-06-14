@@ -22,6 +22,7 @@ Meteor.Router.add
     to: "oldHast"
     as: "archives"
   "/hast/:id":
+    as: 'hastIdRoute'
     to: (id) ->
       Session.set "test", false
       Session.set "hastId", id

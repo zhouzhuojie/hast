@@ -4,7 +4,8 @@
     "basePackages": {
       "router": {},
       "accounts-ui-bootstrap-dropdown": {},
-      "bootstrap-jasny": {}
+      "bootstrap-jasny": {},
+      "moment": {}
     },
     "packages": {
       "router": {
@@ -21,6 +22,11 @@
         "git": "https://github.com/limeyd/meteor-bootstrap-jasny.git",
         "tag": "v1.1.0",
         "commit": "8ef08074dbfb60c462432c50957604cbef3e976d"
+      },
+      "moment": {
+        "git": "https://github.com/possibilities/meteor-moment.git",
+        "tag": "v1.7.0",
+        "commit": "c64b6ec0e714b9556f4b6643d430b868ba69d3d7"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
