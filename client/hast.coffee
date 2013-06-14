@@ -27,17 +27,17 @@ Template.Hast.rendered = ->
       Meteor.clearInterval @timer
 
     saveData: =>
-      if @isDemoMode
-        localStorage.setItem 'demoContent', @editor.getValue()
-        @flashMessage "Saved in local"
-      else
-        Files.update Session.get("hastId"), $set:
-          content: @editor.getValue()
-        @flashMessage "Saved in server"
-
+      if @editor.getReadOnly() is false
+        if @isDemoMode
+          localStorage.setItem 'demoContent', @editor.getValue()
+          @flashMessage "Saved in local"
+        else
+          Files.update Session.get("hastId"), $set:
+            content: @editor.getValue()
+          @flashMessage "Saved in server"
 
     init: ->
-      @isDemoMode = Session.get 'test'
+      @isDemoMode = Session.get 'isDemoMode'
       $(document).on "deck.change", (event, from, to) =>
         @currentSlide = to
         $.deck("getSlide", from).attr "id", ""
@@ -115,7 +115,9 @@ Template.Hast.rendered = ->
           file = Files.findOne(Session.get("hastId"))
           if file
             @editor.setValue file.content or "loading...", -1
-
+            unless file.userId is Meteor.userId()
+              @editor.setReadOnly true
+              $('.editor-header-message').html('(Read Only)')
           else
             @flashMessage "Not found!"
       @refreshDeck()

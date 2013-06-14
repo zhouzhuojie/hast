@@ -13,7 +13,7 @@ Template.oldHast.checkedStatus = (type)->
   if type is 'public' then 'checked' else 'unchecked'
 
 Template.oldHast.rendered = ->
-  $('.mySwitch')
+  $('.switch')
     .bootstrapSwitch()
     .on 'switch-change', (e, data) ->
       $el = $(data.el)

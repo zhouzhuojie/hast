@@ -16,16 +16,20 @@ html, body
     display none
 
 .deck-box
-    padding 4em
+    padding-left 4em
+    padding-right 4em
     width 650px
     float left
     height 450px
 
 .editor-box
-    padding-top 3em
     width 400px
     float right
     height auto
+
+.editor-header
+    text-align center
+    background-color #DCDCDC
 
 #editor
     height 700px
@@ -36,19 +40,21 @@ html, body
 .control-keys
     padding-top 1em
     font-size 1.5em
+    text-align center
 
 .keys-group
-    margin auto
-    width 300px
+    display inline-block
     font-size 1em
 
 .deck-container.inFullScreen
     position  absolute
     top       0
     left      0
+    bottom    0
+    right     0
     width     auto
     height    auto
-    padding   4em
+    padding   4em 12em
 
 .editor-box.inFullScreen
     display none
@@ -64,6 +70,7 @@ html, body
     position absolute
     right 2em
     bottom 2em
+    z-index 3000
 
 .exit-full-screen-btn.inFullScreen
     visibility visible
@@ -71,5 +78,5 @@ html, body
 .archives-box
     min-width 600px
     max-width 900px
-    margin-top 5em
     margin-left 4em
+    margin-bottom 4em

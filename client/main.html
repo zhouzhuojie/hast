@@ -6,7 +6,7 @@
 </body>
 
 <template name="header">
-<header class="navbar navbar-fixed-top full-screen-related">
+<header class="navbar full-screen-related">
     <div class="navbar-inner customized">
       <a class="brand" href="/">Hast</a>
       <ul class="nav">
@@ -41,16 +41,19 @@
       <hr/>
       <div class="keys-group">
         <span class="btn btn-info btn-small save-btn">Save </span>
-        <span class="btn btn-info btn-small mathjax-btn">MathJax</span>
         <span class="btn btn-info btn-small full-screen-btn">Full Screen </span>
-        <kbd class="light">&#8592;</kbd>
-        <kbd class="light">&#8594;</kbd>
+        <i class="icon-arrow-left"></i>
+        <i class="icon-arrow-right"></i>
       </div>
     </div>
   </div>
   <div class="editor-box full-screen-related">
-    <div id="editor">
+    <div class="editor-header">
+      <h4>Editor
+        <span class="editor-header-message"></span>
+      </h4>
     </div>
+    <div id="editor" />
   </div>
   <div class="exit-full-screen-btn full-screen-related btn btn-small">Exit Full Screen</div>
 </div>
@@ -64,7 +67,7 @@
   <div class="alert alert-block">
     <span class="pull-right">
       <p>Share</p>
-      <span class="mySwitch" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+      <span class="switch switch-small" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
         <input type="checkbox" {{checkedStatus type}} data-hastId="{{_id}}"/>
       </span>
     </span>

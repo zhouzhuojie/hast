@@ -12,19 +12,20 @@ Meteor.Router.add
   "/":
     as: "home"
     to: ->
-      Session.set "test", true
+      Session.set "isDemoMode", true
       if getParameterByName('isInFullScreen') is 'true'
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false
       "Hast"
   "/archives":
-    to: "oldHast"
+    to: ->
+      "oldHast"
     as: "archives"
   "/hast/:id":
     as: 'hastIdRoute'
     to: (id) ->
-      Session.set "test", false
+      Session.set "isDemoMode", false
       Session.set "hastId", id
       if getParameterByName('isInFullScreen') is 'true'
         Session.set "isInFullScreen", true
