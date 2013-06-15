@@ -2,7 +2,7 @@
 <title>Hast</title>
 </head>
 <body>
-  {{#isolate}} {{renderPage}} {{/isolate}}
+  {{renderPage}}
 </body>
 
 <template name="header">
@@ -33,8 +33,8 @@
 
 <template name="Hast">
 {{> header}}
-<div class="new-hast-box demo-{{isDemoMode}} fullscreen-{{isInFullScreen}}">
-  <div class="deck-box">
+<div class="new-hast-box demo-{{isDemoMode}} fullscreen-{{isInFullScreen}} row-fluid">
+  <div class="deck-box span8">
     <div class="deck-container full-screen-related" id="deck-container">
     </div>
     <div class="control-keys full-screen-related">
@@ -47,7 +47,7 @@
       </div>
     </div>
   </div>
-  <div class="editor-box full-screen-related">
+  <div class="editor-box full-screen-related span4">
     <div class="editor-header">
       <h4>Editor
         <span class="editor-header-message"></span>
