@@ -1,17 +1,9 @@
-if (Files.find().count() === 0) {
-  var hereDoc = function(f){
-    return f.toString().
-    replace(/^[^\/]+\/\*!?/, '').
-    replace(/\*\/[^\/]+$/, '');
-  };
-
-  var testFile = {
-    content: hereDoc(function(){/*!
+demoContent =
+"""
 Welcome to HackyNote
 ====================
 Presentations made by Hackers
 -----------------
-
 
 //// <!-- Page Divider, '////' -->
 
@@ -68,7 +60,9 @@ $$\frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} =
 Lists
 ---------------------
 
-Unordered (bulleted) lists use asterisks, pluses, and hyphens (*, +, and -) as list markers. These three markers are interchangable;
+Unordered (bulleted) lists use asterisks,
+pluses, and hyphens (*, +, and -) as list markers.
+These three markers are interchangable;
 
 **using** *:
 
@@ -80,7 +74,8 @@ Unordered (bulleted) lists use asterisks, pluses, and hyphens (*, +, and -) as l
 -   Candy.
 -   Gum.
 
-Ordered (numbered) lists use regular numbers, followed by periods, as list markers:
+Ordered (numbered) lists use regular numbers,
+followed by periods, as list markers:
 
 1.  Red
 2.  Green
@@ -91,7 +86,9 @@ Ordered (numbered) lists use regular numbers, followed by periods, as list marke
 Links
 ---------------------
 
-Markdown supports two styles for creating links: inline and reference. With both styles, you use square brackets to delimit the text you want to turn into a link.
+Markdown supports two styles for creating links: inline and reference.
+With both styles, you use square brackets to delimit the text you want
+to turn into a link.
 
 Inline-style links use parentheses immediately after the link text. For example:
 
@@ -101,7 +98,8 @@ Optionally, you may include a title attribute in the parentheses:
 
 This is an [example link](http://example.com/ "With a Title").
 
-Reference-style links allow you to refer to your links by names, which you define elsewhere in your document:
+Reference-style links allow you to refer to your links by names,
+which you define elsewhere in your document:
 
 I get 10 times more traffic from [Google][1] than from
 [Yahoo][2] or [MSN][3].
@@ -110,7 +108,8 @@ I get 10 times more traffic from [Google][1] than from
 [2]: http://search.yahoo.com/  "Yahoo Search"
 [3]: http://search.msn.com/    "MSN Search"
 
-The title attribute is optional. Link names may contain letters, numbers and spaces, but are not case sensitive:
+The title attribute is optional. Link names may contain letters,
+numbers and spaces, but are not case sensitive:
 
 I start my morning with a cup of coffee and
 [The New York Times][NY Times].
@@ -136,13 +135,15 @@ Start you next
 ---------------------
 Hack Presentation
 ---------------------
-    */}),
-    type  : 'public',
-    test  : true,
-    userId: '',
-    author: 'Hast',
-    submitted: new Date().getTime(),
+"""
+
+if Files.find().count() is 0
+  testFile =
+    content: demoContent
+    type  : 'public'
+    test  : true
+    userId: ''
+    author: 'Hast'
+    submitted: new Date().getTime()
     title : 'Welcome'
-  };
-  Files.insert(testFile);
-}
+  Files.insert testFile

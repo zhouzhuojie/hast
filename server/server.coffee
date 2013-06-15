@@ -9,7 +9,7 @@ Meteor.publish "newHast", ->
 
 Meteor.publish "Hast", (hastId) ->
   file = Files.findOne hastId
-  if file.userId is @userId or file.type is 'public'
+  if file and file.userId is @userId or file.type is 'public'
     Files.find hastId,
       fields:
         content: 1
@@ -27,7 +27,7 @@ Meteor.publish "oldHast", ->
       title: 1
       submitted: 1
       type: 1
-
+      userId: 1
 
 Meteor.methods
   addFile: (fileAttributes) ->

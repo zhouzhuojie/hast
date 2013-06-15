@@ -2,8 +2,7 @@ Meteor.subscribe "oldHast"
 
 Template.oldHast.files = ->
   Files.find(
-    {userId: @userId},
-    {sort: {submitted: -1}, reactive: false})
+    {userId: Meteor.userId()}, {sort: {submitted: -1}})
   .fetch()
 
 Template.oldHast.timeFromNow = (utc)->
@@ -17,7 +16,4 @@ Template.oldHast.rendered = ->
     .bootstrapSwitch()
     .on 'switch-change', (e, data) ->
       $el = $(data.el)
-      Meteor.call "updateType",
-        $el.attr('data-hastId'),
-        data.value, (error, result)->
-          console.log error, result
+      Meteor.call "updateType", $el.attr('data-hastId'), data.value

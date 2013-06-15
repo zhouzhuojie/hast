@@ -27,7 +27,7 @@ Meteor.Router.add
     to: (id) ->
       Session.set "isDemoMode", false
       Session.set "hastId", id
-      if getParameterByName('isInFullScreen') is 'true'
+      if getParameterByName('f') is 'true'
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false

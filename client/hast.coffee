@@ -14,17 +14,18 @@ Template.Hast.rendered = ->
       @converter = new Markdown.Converter
       @currentSlide = 0
       @timer = undefined
+      @isOwner = false
 
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
-      , 2500)
+      , 3000)
     setTimerRefresh: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
-      , 300)
+      , 500)
     setTimerClear: =>
-      Meteor.clearInterval @timer
+      Meteor.clearTimeout @timer
 
     saveData: =>
       if @editor.getReadOnly() is false
@@ -34,6 +35,7 @@ Template.Hast.rendered = ->
         else
           Files.update Session.get("hastId"), $set:
             content: @editor.getValue()
+            title: @getTitle()
           @flashMessage "Saved in server"
 
     init: ->
@@ -102,6 +104,27 @@ Template.Hast.rendered = ->
       $.deck ".slide"
       $.deck "go", @currentSlide
 
+    setReadOnlyMode: =>
+      unless @isOwner
+        @editor.setReadOnly true
+        $('.editor-header-message').html('(Read Only)')
+        query = Files.find(Session.get('hastId'))
+        handle = query.observeChanges
+          changed: (id, fields) =>
+            @editor.setValue fields.content, -1
+            @refreshDeck
+            @refreshMathJax
+
+    getTitle: ->
+      titleString = @converter.makeHtml(
+        @editor.getValue().split("////")[0]
+      ).split("\n")[0]
+
+      if titleString.indexOf("<h1>") is 0
+        titleString.slice 4, -5
+      else
+        ""
+
     setData: ->
       if @isDemoMode is true
         Meteor.subscribe "newHast", =>
@@ -115,9 +138,8 @@ Template.Hast.rendered = ->
           file = Files.findOne(Session.get("hastId"))
           if file
             @editor.setValue file.content or "loading...", -1
-            unless file.userId is Meteor.userId()
-              @editor.setReadOnly true
-              $('.editor-header-message').html('(Read Only)')
+            @isOwner = if file.userId is Meteor.userId() then true else false
+            @setReadOnlyMode()
           else
             @flashMessage "Not found!"
       @refreshDeck()
@@ -129,17 +151,9 @@ Template.Hast.events
   "click .save-btn": ->
     panel = window.panel
     if Meteor.user()
-      getTitle = ->
-        titleString = panel.converter.makeHtml(
-          panel.editor.getValue().split("////")[0]
-        ).split("\n")[0]
-        if titleString.indexOf("<h1>") is 0
-          titleString.slice 4, -5
-        else
-          ""
       file = Files.findOne(Session.get('hastId'))
       Meteor.call "addFile",
-        title: getTitle()
+        title: panel.getTitle()
         content: panel.editor.getValue()
         test: file.test
         fileId: file._id
