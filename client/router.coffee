@@ -13,7 +13,7 @@ Meteor.Router.add
     as: "home"
     to: ->
       Session.set "isDemoMode", true
-      if getParameterByName('isInFullScreen') is 'true'
+      if getParameterByName('f') is 'true'
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false

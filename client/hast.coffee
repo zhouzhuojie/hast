@@ -1,9 +1,6 @@
 Template.Hast.isDemoMode = ->
   Session.get 'isDemoMode'
 
-Template.Hast.isInFullScreen= ->
-  Session.get 'isInFullScreen'
-
 Template.Hast.rendered = ->
   class Panel
     constructor: ->
@@ -57,13 +54,20 @@ Template.Hast.rendered = ->
 
       @setData()
       @setMathJax()
-      if Session.get('isInFullScreen') is true
-        $('.full-screen-related').addClass('inFullScreen')
-      else
-        $('.full-screen-related').removeClass('inFullScreen')
+      @setFullScreenHandler()
+
+    setFullScreenHandler: ->
+      Session.whenTrue 'isInFullScreen',
+        ->
+          $('.full-screen-related').addClass('inFullScreen')
+        , true
+      Session.whenFalse 'isInFullScreen',
+        ->
+          $('.full-screen-related').removeClass('inFullScreen')
+        , true
 
     setMathJax: ->
-      (->
+      do ->
         head = document.getElementsByTagName("head")[0]
         script = undefined
         script = document.createElement("script")
@@ -80,7 +84,6 @@ Template.Hast.rendered = ->
         script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js" +
           "?config=TeX-AMS-MML_HTMLorMML"
         head.appendChild script
-      )()
       Meteor.setTimeout (=> @refreshMathJax("deck-container")), 1000
 
     refreshMathJax: (elementId) ->

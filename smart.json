@@ -9,6 +9,6 @@
       "git": "https://github.com/nate-strauser/meteor-font-awesome.git"
     },
     "accounts-ui-bootstrap-dropdown": {},
-    "iced-coffee-script": {}
+    "session-extras": {}
   }
 }
