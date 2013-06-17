@@ -48,15 +48,6 @@ Meteor.methods
       fileId = Files.insert(file)
       message: "New Hast Created!"
       fileId: fileId
-    else
-      file_to_update = _.extend(_.pick(fileAttributes, "title", "content"),
-        submitted: new Date().getTime()
-      )
-      Files.update fileAttributes.fileId,
-        $set: file_to_update
-
-      message: "Hast Updated!"
-      fileId: fileAttributes.fileId
 
   updateType: (hastId, isPublic) ->
     user = Meteor.user()

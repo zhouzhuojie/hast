@@ -8,11 +8,28 @@ Template.Hast.rendered = ->
       @editor.setTheme "ace/theme/chrome"
       @editor.getSession().setMode "ace/mode/markdown"
       @editor.getSession().setUseWrapMode true
-      @converter = new Markdown.Converter
+      @markedOptions =
+        langPrefix: "language-"
+      @converter = (md) ->
+        marked(md, @markOptions)
       @currentSlide = 0
       @timer = undefined
       @isOwner = false
       @isDemoMode = Session.get 'isDemoMode'
+      @pageDivider = '////'
+
+    getPageNumFromEditor: =>
+      currentRow = @editor.getCursorPosition().row
+      textLines = @editor.getValue().split('\n')
+      pageNum =
+        (
+          (if _.str.contains(val, @pageDivider) \
+          and i <= currentRow then 1 else 0
+          ) for val, i in textLines
+        )
+      result = _.countBy pageNum, (num)->
+        if num is 1 then 'count' else 'junk'
+      result.count?=0
 
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
@@ -22,7 +39,7 @@ Template.Hast.rendered = ->
       @timer = Meteor.setTimeout(->
         callback()
       , 500)
-    setTimerClear: =>
+    setTimerClear: ->
       Meteor.clearTimeout @timer
 
     saveData: =>
@@ -37,12 +54,15 @@ Template.Hast.rendered = ->
           @flashMessage "Saved in server"
 
     init: ->
+      unless @isDemoMode
+        $('.save-btn').hide()
+
       $(document).on "deck.change", (event, from, to) =>
         @currentSlide = to
         $.deck("getSlide", from).attr "id", ""
         $.deck("getSlide", to).attr "id", "deck-current"
 
-      @editor.on "change", =>
+      @editor.on "change", (data)=>
         @setTimerClear()
         @setTimerRefresh =>
           @refreshDeck()
@@ -51,6 +71,9 @@ Template.Hast.rendered = ->
         @setTimerSave =>
           @saveData()
           @refreshMathJax("deck-container")
+
+      @editor.on "changeSelection", =>
+        $.deck "go", @getPageNumFromEditor()
 
       @setData()
       @setMathJax()
@@ -93,17 +116,20 @@ Template.Hast.rendered = ->
       $("#message-notice").html(message).fadeIn(500).fadeOut(2000)
 
     refreshDeck: ->
-      slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\").split("////")
+      slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\") \
+        .split(@pageDivider)
       getSlidesHtmls = (Mds, c) ->
         _.reduce _.map(Mds, (slide, index) ->
           if index is 0
             "<section class=\"slide\" id=\"title-slide\">
-            #{c.makeHtml(slide)}
+            #{c(slide)}
             </section>"
           else
-            "<section class=\"slide\">#{c.makeHtml(slide)}</section>"
+            "<section class=\"slide\">#{c(slide)}</section>"
         ), (a, b) -> (a + b)
       $("#deck-container").html getSlidesHtmls(slidesMd, @converter)
+      $("#deck-container").find('a').attr('target', '_blank')
+      Prism.highlightAll()
       $.deck ".slide"
       $.deck "go", @currentSlide
 
@@ -119,8 +145,8 @@ Template.Hast.rendered = ->
             @refreshMathJax
 
     getTitle: ->
-      titleString = @converter.makeHtml(
-        @editor.getValue().split("////")[0]
+      titleString = @converter(
+        @editor.getValue().split(@pageDivider)[0]
       ).split("\n")[0]
 
       if titleString.indexOf("<h1>") is 0

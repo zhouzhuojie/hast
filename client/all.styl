@@ -28,12 +28,18 @@ hr.deck-box-divider
     margin-bottom 0.7em
 
 .deck-box
-    height 89%
+    height 100%
     padding-top 3em
 
 .deck-container
+    min-height 90%
     max-height 90%
     overflow-y auto
+
+.control-keys
+    font-size 1.5em
+    text-align center
+    margin-bottom 1em
 
 .editor-box
     height 94%
@@ -44,10 +50,6 @@ hr.deck-box-divider
 
 #editor
     height 100%
-
-.control-keys
-    font-size 1.5em
-    text-align center
 
 .keys-group
     display inline-block
@@ -61,8 +63,11 @@ hr.deck-box-divider
     right     0
     width     auto
     height    auto
-    padding   0em 12em
-    overflow-y hidden
+    min-height 100%
+    padding   0em 10em
+    overflow-y auto
+    z-index   2000
+    background-color #FFFFFF
 
 .editor-box.inFullScreen
     display none
@@ -74,14 +79,31 @@ hr.deck-box-divider
     display none
 
 .exit-full-screen-btn
-    visibility hidden
+    display none
     position absolute
-    right 2em
-    bottom 2em
+    right 30%
+    bottom 30%
     z-index 3000
 
-.exit-full-screen-btn.inFullScreen
-    visibility visible
+.exit-full-screen-area
+    display none
+    position absolute
+    right 0
+    bottom 0
+    width 25em
+    height 15em
+    z-index 2001
+
+.exit-full-screen-area.inFullScreen
+    display block
+
+.exit-full-screen-area.inFullScreen .exit-full-screen-btn
+    display block
+    opacity 0.2
+
+.exit-full-screen-area.inFullScreen:hover .exit-full-screen-btn
+    display block
+    opacity 1
 
 .archives-box
     min-width 400px
