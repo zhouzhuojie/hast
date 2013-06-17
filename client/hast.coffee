@@ -15,6 +15,7 @@ Template.Hast.rendered = ->
       @currentSlide = 0
       @timer = undefined
       @isOwner = false
+      @isDemoMode = Session.get 'isDemoMode'
 
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
@@ -39,7 +40,6 @@ Template.Hast.rendered = ->
           @flashMessage "Saved in server"
 
     init: ->
-      @isDemoMode = Session.get 'isDemoMode'
       $(document).on "deck.change", (event, from, to) =>
         @currentSlide = to
         $.deck("getSlide", from).attr "id", ""

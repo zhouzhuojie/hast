@@ -6,7 +6,6 @@
 preserve-inputs
 router
 stylus
-coffeescript
 accounts-password
 underscore
 flatstrap

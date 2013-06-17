@@ -12,7 +12,8 @@
         "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
         "branch": "master"
       },
-      "accounts-ui-bootstrap-dropdown": {}
+      "accounts-ui-bootstrap-dropdown": {},
+      "iced-coffee-script": {}
     },
     "packages": {
       "router": {
@@ -33,12 +34,17 @@
       "font-awesome": {
         "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
         "branch": "master",
-        "commit": "0b9055531df2eea9218fe7cd6b7a7a4ef199b17d"
+        "commit": "7604a91ca48ea22ac4d47ec6a806421364ccdedb"
       },
       "accounts-ui-bootstrap-dropdown": {
         "git": "https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown.git",
         "tag": "v0.1.3",
         "commit": "42aa4d95070a2bd2aa200dcfd6c0edc69e3815c3"
+      },
+      "iced-coffee-script": {
+        "git": "https://github.com/hipertracker/meteor-iced-coffee-script.git",
+        "tag": "v0.2.1",
+        "commit": "62ba8daf02e49d4cfcc73669d6eae1f2c2736665"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
