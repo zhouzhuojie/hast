@@ -5,7 +5,7 @@ Welcome to HackyNote
 Presentations made by Hackers
 -----------------
 
-//// <!-- Page Divider, '////' -->
+//// <!-- Page Divider -->
 
 A Second Level Header
 ---------------------
