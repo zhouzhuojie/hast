@@ -54,6 +54,7 @@ Template.Hast.rendered = ->
           @flashMessage "Saved in server"
 
     init: ->
+
       unless @isDemoMode
         $('.save-btn').hide()
 
@@ -76,6 +77,7 @@ Template.Hast.rendered = ->
         $.deck "go", @getPageNumFromEditor()
 
       @setData()
+      @refreshDeck()
       @setMathJax()
       @setFullScreenHandler()
 
@@ -159,9 +161,10 @@ Template.Hast.rendered = ->
         Meteor.subscribe "newHast", =>
           file = Files.findOne(test: true)
           Session.set "hastId", file._id
-          @editor.setValue localStorage.getItem('demoContent') or
-            file.content or "loading...",
+          @editor.setValue(
+            localStorage.getItem('demoContent') or file.content or "loading..."
             -1
+          )
       else
         Meteor.subscribe "Hast", Session.get("hastId"), =>
           file = Files.findOne(Session.get("hastId"))
@@ -170,8 +173,7 @@ Template.Hast.rendered = ->
             @isOwner = if file.userId is Meteor.userId() then true else false
             @setReadOnlyMode()
           else
-            @flashMessage "Not found!"
-      @refreshDeck()
+            @editor.setValue "Not Found==========\nWhy not create your own?", -1
 
   window.panel = new Panel
   window.panel.init()
