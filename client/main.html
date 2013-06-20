@@ -21,7 +21,7 @@
         <li>{{loginButtons}}</li>
       </ul>
       <ul class="nav pull-right messages">
-        <li class="message-notice-wrapper"><span class="label label-warning" id="message-notice"></span></li>
+        <li class="message-notice-wrapper"><span class="label" id="message-notice"></span></li>
       </ul>
     </div>
   </header>
@@ -33,18 +33,9 @@
 
 <template name="Hast">
 {{> header}}
-<div class="new-hast-box demo-{{isDemoMode}} row-fluid">
+<div class="new-hast-box row-fluid">
   <div class="deck-box span8">
     <div class="deck-container full-screen-related" id="deck-container">
-    </div>
-    <div class="control-keys full-screen-related">
-      <hr class="deck-box-divider"/>
-      <div class="keys-group">
-        <span class="btn btn-info btn-small save-btn">Save </span>
-        <span class="btn btn-info btn-small full-screen-btn">Full Screen </span>
-        <i class="icon-arrow-left"></i>
-        <i class="icon-arrow-right"></i>
-      </div>
     </div>
   </div>
   <div class="editor-box span4 visible-desktop">
@@ -56,7 +47,12 @@
     <div id="editor" />
   </div>
   <div class="exit-full-screen-area full-screen-related">
-    <div class="exit-full-screen-btn btn btn-small btn-info">Exit Full Screen</div>
+    <div class="full-screen-btn-group">
+      <span class="save-btn btn btn-info btn-small">Save </span>
+      <span class="full-screen-btn btn btn-small btn-info">Full Screen</span>
+      <span class="exit-full-screen-btn fade-btn btn btn-small btn-info">Exit Full Screen</span>
+      <span class="sync-deck-btn fade-btn btn btn-small">Sync Play: Off</span>
+    </div>
   </div>
 </div>
 </template>
@@ -67,12 +63,21 @@
 <div class="archives-box">
   {{#each files}}
   <div class="alert alert-block">
-    <span class="pull-right">
-      <p>Share</p>
-      <span class="switch switch-small" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
-        <input type="checkbox" {{checkedStatus type}} data-hastId="{{_id}}"/>
-      </span>
-    </span>
+    <div class="pull-right">
+        <table>
+          <tr>
+            <td>
+              Share
+            </td>
+            <td>
+              <span class="switch switch-mini" data-on="info" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+                <input type="checkbox" {{checkedStatus type}} data-hastId="{{_id}}"/>
+              </span>
+            </td>
+          </tr>
+        </table>
+        <div class="btn btn-warning btn-mini btn-block delete-btn" data-hastId="{{_id}}">Delete</div>
+    </div>
     <h4>
       <a href="{{hastIdRoutePath _id}}">{{title}}</a>
     </h4>

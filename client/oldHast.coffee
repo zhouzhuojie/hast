@@ -17,3 +17,10 @@ Template.oldHast.rendered = ->
     .on 'switch-change', (e, data) ->
       $el = $(data.el)
       Meteor.call "updateType", $el.attr('data-hastId'), data.value
+
+Template.oldHast.events
+  'click .delete-btn': (event) ->
+    hastId = event.target.attributes['data-hastId'].value
+    bootbox.confirm "Are you sure to delete?", (result) ->
+      if result is true
+        Files.remove hastId

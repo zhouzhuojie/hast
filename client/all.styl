@@ -24,23 +24,14 @@ html, body
     bottom 0
     overflow-y hidden
 
-hr.deck-box-divider
-    margin-top 0.7em
-    margin-bottom 0.7em
-
 .deck-box
     height 100%
     padding-top 3em
 
 .deck-container
-    min-height 90%
-    max-height 90%
+    min-height 95%
+    max-height 95%
     overflow-y auto
-
-.control-keys
-    font-size 1.5em
-    text-align center
-    margin-bottom 1em
 
 .editor-box
     height 93%
@@ -51,10 +42,6 @@ hr.deck-box-divider
 
 #editor
     height 100%
-
-.keys-group
-    display inline-block
-    font-size 1em
 
 .deck-container.inFullScreen
     position  absolute
@@ -76,20 +63,23 @@ hr.deck-box-divider
 .navbar.inFullScreen
     display none
 
-.control-keys.inFullScreen
-    display none
-
-.exit-full-screen-btn
-    display none
+.full-screen-btn-group
     position absolute
-    right 30%
-    bottom 30%
+    bottom 2.5em
+    left 3em
+    margin auto
+    font-size 1em
+
+.fade-btn
+    display none
     z-index 3000
 
-.exit-full-screen-area
+.save-btn.no-display
     display none
+
+.exit-full-screen-area
     position absolute
-    right 0
+    left 0
     bottom 0
     width 25em
     height 15em
@@ -98,17 +88,29 @@ hr.deck-box-divider
 .exit-full-screen-area.inFullScreen
     display block
 
-.exit-full-screen-area.inFullScreen .exit-full-screen-btn
-    display block
+.exit-full-screen-area.inFullScreen .fade-btn
+    display inline-block
     opacity 0.2
 
-.exit-full-screen-area.inFullScreen:hover .exit-full-screen-btn
-    display block
+.exit-full-screen-area.inFullScreen .save-btn
+    display none
+
+.exit-full-screen-area.inFullScreen .full-screen-btn
+    display none
+
+.exit-full-screen-area.inFullScreen .sync-deck-btn
+    display inline-block
+
+.exit-full-screen-area.inFullScreen:hover .fade-btn
+    display inline-block
     opacity 1
 
 .archives-box
-    min-width 400px
+    min-width 500px
     max-width 900px
     margin-top 2em
     margin-left 4em
     margin-right 4em
+
+.btn-block
+    margin-top 1em

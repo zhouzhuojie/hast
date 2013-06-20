@@ -1,4 +1,5 @@
 @Files = new Meteor.Collection("files")
+
 ownFile = (userId, file) ->
   file and file.userId is userId
 
@@ -7,4 +8,4 @@ ownFile = (userId, file) ->
   remove: ownFile
 
 @Files.deny update: (userId, file, fieldNames) ->
-  _.without(fieldNames, "content", "title").length > 0
+  _.without(fieldNames, "content", "title", "currentSlide").length > 0

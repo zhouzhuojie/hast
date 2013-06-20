@@ -32,4 +32,6 @@ Meteor.Router.add
       else
         Session.set "isInFullScreen", false
       "Hast"
-  "*": "not_found"
+  "*":
+    as: "not_found"
+    to: "not_found"

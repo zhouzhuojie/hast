@@ -1,6 +1,3 @@
-Template.Hast.isDemoMode = ->
-  Session.get 'isDemoMode'
-
 Template.Hast.rendered = ->
   class Panel
     constructor: ->
@@ -13,9 +10,9 @@ Template.Hast.rendered = ->
       @converter = (md) ->
         marked(md, @markOptions)
       @currentSlide = 0
+      @isSyncDeck = false
       @timer = undefined
       @isOwner = false
-      @isDemoMode = Session.get 'isDemoMode'
       @pageDivider = '////'
 
     getPageNumFromEditor: =>
@@ -42,9 +39,9 @@ Template.Hast.rendered = ->
     setTimerClear: ->
       Meteor.clearTimeout @timer
 
-    saveData: =>
+    saveData: ->
       if @editor.getReadOnly() is false
-        if @isDemoMode
+        if Session.get('isDemoMode')
           localStorage.setItem 'demoContent', @editor.getValue()
           @flashMessage "Saved in local"
         else
@@ -53,31 +50,36 @@ Template.Hast.rendered = ->
             title: @getTitle()
           @flashMessage "Saved in server"
 
-    init: ->
-
-      unless @isDemoMode
-        $('.save-btn').hide()
-
+    handleDeckChange: ->
+      $(document).off "deck.change"
       $(document).on "deck.change", (event, from, to) =>
         @currentSlide = to
         $.deck("getSlide", from).attr "id", ""
         $.deck("getSlide", to).attr "id", "deck-current"
+        if Session.get('isDemoMode') is false \
+        and @isOwner is true \
+        and Session.get('isInFullScreen') is true \
+        and @isSyncDeck is true
+          Files.update Session.get("hastId"), $set:
+            currentSlide: @currentSlide
 
+    handleEditorChange: ->
       @editor.on "change", (data)=>
         @setTimerClear()
         @setTimerRefresh =>
           @refreshDeck()
           @refreshMathJax("deck-current")
-
         @setTimerSave =>
           @saveData()
           @refreshMathJax("deck-container")
-
       @editor.on "changeSelection", =>
         $.deck "go", @getPageNumFromEditor()
 
+    init: ->
+      @handleEditorChange()
       @setData()
       @refreshDeck()
+      @handleDeckChange()
       @setMathJax()
       @setFullScreenHandler()
 
@@ -115,9 +117,14 @@ Template.Hast.rendered = ->
       MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
 
     flashMessage: (message)->
-      $("#message-notice").html(message).fadeIn(500).fadeOut(2000)
+      $("#message-notice")
+        .stop(true, true)
+        .html(message)
+        .show()
+        .fadeOut(3000)
 
     refreshDeck: ->
+      @flashMessage('Saving...')
       slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\") \
         .split(@pageDivider)
       getSlidesHtmls = (Mds, c) ->
@@ -129,7 +136,15 @@ Template.Hast.rendered = ->
           else
             "<section class=\"slide\">#{c(slide)}</section>"
         ), (a, b) -> (a + b)
-      $("#deck-container").html getSlidesHtmls(slidesMd, @converter)
+      $("#deck-container").html getSlidesHtmls(slidesMd, @converter) + '
+        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+        <p class="deck-status">
+        <span class="deck-status-current"></span>
+        /
+        <span class="deck-status-total"></span>
+        </p>
+      '
       $("#deck-container").find('a').attr('target', '_blank')
       Prism.highlightAll()
       $.deck ".slide"
@@ -139,10 +154,13 @@ Template.Hast.rendered = ->
       unless @isOwner
         @editor.setReadOnly true
         $('.editor-header-message').html('(Read Only)')
-        query = Files.find(Session.get('hastId'))
-        handle = query.observeChanges
+        Meteor.subscribe 'Hast', Session.get('hastId')
+        Files.find(Session.get('hastId')).observeChanges
           changed: (id, fields) =>
-            @editor.setValue fields.content, -1
+            if fields.content?
+              @editor.setValue fields.content, -1
+            if @isSyncDeck is true and fields.currentSlide?
+              $.deck("go", fields.currentSlide)
             @refreshDeck
             @refreshMathJax
 
@@ -157,23 +175,22 @@ Template.Hast.rendered = ->
         ""
 
     setData: ->
-      if @isDemoMode is true
-        Meteor.subscribe "newHast", =>
-          file = Files.findOne(test: true)
-          Session.set "hastId", file._id
+      Session.whenTrue 'isDemoMode', =>
+        $('.save-btn').removeClass('no-display')
+        Meteor.call 'demoContent', (err, demoContent)=>
           @editor.setValue(
-            localStorage.getItem('demoContent') or file.content or "loading..."
+            localStorage.getItem('demoContent') or demoContent or "loading..."
             -1
           )
-      else
-        Meteor.subscribe "Hast", Session.get("hastId"), =>
-          file = Files.findOne(Session.get("hastId"))
+      Session.whenFalse 'isDemoMode', =>
+        $('.save-btn').addClass('no-display')
+        Meteor.call 'getHast', Session.get('hastId'), (err, file) =>
           if file
             @editor.setValue file.content or "loading...", -1
             @isOwner = if file.userId is Meteor.userId() then true else false
             @setReadOnlyMode()
           else
-            @editor.setValue "Not Found==========\nWhy not create your own?", -1
+            Meteor.Router.to '/404'
 
   window.panel = new Panel
   window.panel.init()
@@ -182,16 +199,15 @@ Template.Hast.events
   "click .save-btn": ->
     panel = window.panel
     if Meteor.user()
-      file = Files.findOne(Session.get('hastId'))
-      Meteor.call "addFile",
+      Meteor.call(
+        "addFile"
         title: panel.getTitle()
         content: panel.editor.getValue()
-        test: file.test
-        fileId: file._id
-      , (error, result) ->
-        panel.flashMessage result.message
-        Meteor.Router.to "/hast/" + result.fileId
-
+        (error, result) ->
+          panel.flashMessage result.message
+          Meteor.Router.to "/hast/" + result.fileId
+          panel.setData()
+      )
     else
       panel.flashMessage "Please log in to save your own files"
 
@@ -205,3 +221,13 @@ Template.Hast.events
     window.panel.saveData()
     Session.set 'isInFullScreen', false
 
+  "click .sync-deck-btn": ->
+    panel = window.panel
+    if panel.isSyncDeck is true
+      panel.isSyncDeck = false
+      panel.handleDeckChange()
+      $('.sync-deck-btn').html('Sync Play: Off').removeClass('btn-info')
+    else
+      panel.isSyncDeck = true
+      panel.handleDeckChange()
+      $('.sync-deck-btn').html('Sync Play: On').addClass('btn-info')

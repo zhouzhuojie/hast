@@ -1,12 +1,3 @@
-Meteor.publish "newHast", ->
-  Files.find
-    test: true
-  ,
-    limit: 1
-    fields:
-      content: 1
-      test: 1
-
 Meteor.publish "Hast", (hastId) ->
   file = Files.findOne hastId
   if file and (file.userId is @userId or file.type is 'public')
@@ -16,6 +7,7 @@ Meteor.publish "Hast", (hastId) ->
         test: 1
         userId: 1
         type: 1
+        currentSlide: 1
   else
     return null
 
@@ -28,8 +20,19 @@ Meteor.publish "oldHast", ->
       submitted: 1
       type: 1
       userId: 1
+      currentSlide: 1
 
 Meteor.methods
+  demoContent: () ->
+    return Files.findOne({test:true}).content
+
+  getHast: (hastId) ->
+    file = Files.findOne hastId
+    if file and (file.userId is Meteor.userId() or file.type is 'public')
+      return file
+    else
+      return null
+
   addFile: (fileAttributes) ->
     user = Meteor.user()
     unless user
@@ -37,17 +40,17 @@ Meteor.methods
     unless fileAttributes.title
       throw new Meteor.Error(422, "Please fill in a headline in title page")
 
-    if fileAttributes.test
-      file = _.extend(_.pick(fileAttributes, "title", "content"),
-        userId: user._id
-        author: user.username
-        submitted: new Date().getTime()
-        type: "private"
-        test: false
-      )
-      fileId = Files.insert(file)
-      message: "New Hast Created!"
-      fileId: fileId
+    file = _.extend(_.pick(fileAttributes, "title", "content"),
+      userId: user._id
+      author: user.username
+      submitted: new Date().getTime()
+      type: "private"
+      test: false
+    )
+    fileId = Files.insert(file)
+
+    message: "New Hast Created!"
+    fileId: fileId
 
   updateType: (hastId, isPublic) ->
     user = Meteor.user()
