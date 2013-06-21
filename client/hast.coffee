@@ -28,24 +28,21 @@ Template.Hast.rendered = ->
           ]
         else
           [r1, r2] = [@pageNum[page - 1], @pageNum[page]]
-        console.log page
-        console.log [r1, r2]
-        console.log @pageNum
         return r = new @Range(r1, 0, r2, 0)
       else
         return r = new @Range(0, 0, 0, 0)
 
-    getPageNumFromEditor: =>
+    getPageNumFromEditor: ->
       currentRow = @editor.getCursorPosition().row
       textLines = @editor.getValue().split('\n')
       @pageNum = (
         i for val, i in textLines when _.str.contains(val, @pageDivider)
       )
       unless @pageNum.length is 0
-        result = _.map(@pageNum, (num)-> if num<=currentRow then 1 else 0)
+        result = _.map(@pageNum, (num)-> if num<currentRow then 1 else 0)
         result = _.reduce(result, (s,t) -> s + t)
-        return result
-      return 0
+        return @currentSlide = result
+      return @currentSlide = 0
 
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
@@ -84,7 +81,7 @@ Template.Hast.rendered = ->
           and @isSyncDeck is true
             Files.update Session.get("hastId"), $set:
               currentSlide: @currentSlide
-        , 20
+        , 1
         , true
       )
 
@@ -101,7 +98,6 @@ Template.Hast.rendered = ->
       @editor.getSelection().on "changeCursor", =>
         targetSlide = @getPageNumFromEditor()
         $.deck "go", targetSlide
-        @currentSlide = targetSlide
 
     init: ->
       @setData()
@@ -111,6 +107,7 @@ Template.Hast.rendered = ->
       @handleEditorChange()
       @handleDeckChange()
       @getPageNumFromEditor()
+      @editor.focus()
       return null
 
     setFullScreenHandler: ->
