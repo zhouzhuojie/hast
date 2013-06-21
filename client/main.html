@@ -11,7 +11,7 @@
       <a class="brand" href="/">Hast</a>
       <ul class="nav">
         <li class="">
-          <a href="{{homePath}}">New</a>
+        <a href="{{homePath}}">New</a>
         </li>
         <li class="">
           <a href="{{archivesPath}}">Archives</a>
@@ -28,7 +28,13 @@
 </template>
 
 <template name="not_found">
-<h1>404 Not Found!</h1>
+{{> header}}
+<div class="page-404">
+<h1>// Hast Not Found, Oops...</h1>
+<span><h4>This page does not exist or the hast is private.</h4></span>
+<span><h4>Why not create your own hast?</h4></span>
+<span><a class="btn btn-info" href="/">New Hast</a></span>
+</div>
 </template>
 
 <template name="Hast">
