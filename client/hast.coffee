@@ -11,7 +11,8 @@ Template.Hast.rendered = ->
         marked(md, @markOptions)
       @currentSlide = 0
       @isSyncDeck = false
-      @timer = undefined
+      @timerRefresh = undefined
+      @timerSave = undefined
       @isOwner = false
       @pageDivider = '////'
 
@@ -26,18 +27,19 @@ Template.Hast.rendered = ->
         )
       result = _.countBy pageNum, (num)->
         if num is 1 then 'count' else 'junk'
-      result.count?=0
+      @currentSlide = result.count?=0
 
     setTimerSave: (callback) ->
-      @timer = Meteor.setTimeout(->
+      @timerRefresh = Meteor.setTimeout(->
         callback()
       , 3000)
     setTimerRefresh: (callback) ->
-      @timer = Meteor.setTimeout(->
+      @timerSave = Meteor.setTimeout(->
         callback()
-      , 500)
-    setTimerClear: ->
-      Meteor.clearTimeout @timer
+      , 300)
+    setTimerClear: =>
+      Meteor.clearTimeout @timerRefresh
+      Meteor.clearTimeout @timerSave
 
     saveData: ->
       if @editor.getReadOnly() is false
