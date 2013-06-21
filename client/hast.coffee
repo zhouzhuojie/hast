@@ -5,8 +5,10 @@ Template.Hast.rendered = ->
       @editor.setTheme "ace/theme/chrome"
       @editor.getSession().setMode "ace/mode/markdown"
       @editor.getSession().setUseWrapMode true
+      @Range = ace.require('ace/range').Range
       @markedOptions =
         langPrefix: "language-"
+        sanitize: false
       @converter = (md) ->
         marked(md, @markOptions)
       @currentSlide = 0
@@ -15,18 +17,35 @@ Template.Hast.rendered = ->
       @isOwner = false
       @pageDivider = '////'
 
+    getPageRange: (page)->
+      if @pageNum.length >= 1
+        if page is 0
+          [r1, r2] = [0, @pageNum[0]]
+        else if page >= (@pageNum.length)
+          [r1, r2] = [
+            @pageNum[@pageNum.length - 1]
+          , @editor.getSession().getLength() - 1
+          ]
+        else
+          [r1, r2] = [@pageNum[page - 1], @pageNum[page]]
+        console.log page
+        console.log [r1, r2]
+        console.log @pageNum
+        return r = new @Range(r1, 0, r2, 0)
+      else
+        return r = new @Range(0, 0, 0, 0)
+
     getPageNumFromEditor: =>
       currentRow = @editor.getCursorPosition().row
       textLines = @editor.getValue().split('\n')
-      pageNum =
-        (
-          (if _.str.contains(val, @pageDivider) \
-          and i <= currentRow then 1 else 0
-          ) for val, i in textLines
-        )
-      result = _.countBy pageNum, (num)->
-        if num is 1 then 'count' else 'junk'
-      result.count?=0
+      @pageNum = (
+        i for val, i in textLines when _.str.contains(val, @pageDivider)
+      )
+      unless @pageNum.length is 0
+        result = _.map(@pageNum, (num)-> if num<=currentRow then 1 else 0)
+        result = _.reduce(result, (s,t) -> s + t)
+        return result
+      return 0
 
     setTimerSave: (callback) ->
       @timer = Meteor.setTimeout(->
@@ -35,7 +54,7 @@ Template.Hast.rendered = ->
     setTimerRefresh: (callback) ->
       @timer = Meteor.setTimeout(->
         callback()
-      , 500)
+      , 300)
     setTimerClear: ->
       Meteor.clearTimeout @timer
 
@@ -50,21 +69,27 @@ Template.Hast.rendered = ->
             title: @getTitle()
           @flashMessage "Saved in server"
 
-    handleDeckChange: ->
+    handleDeckChange: =>
       $(document).off "deck.change"
-      $(document).on "deck.change", (event, from, to) =>
-        @currentSlide = to
-        $.deck("getSlide", from).attr "id", ""
-        $.deck("getSlide", to).attr "id", "deck-current"
-        if Session.get('isDemoMode') is false \
-        and @isOwner is true \
-        and Session.get('isInFullScreen') is true \
-        and @isSyncDeck is true
-          Files.update Session.get("hastId"), $set:
-            currentSlide: @currentSlide
+      $(document).on "deck.change", _.debounce(
+        (event, from, to) =>
+          $.deck("getSlide", from).attr "id", ""
+          $.deck("getSlide", to).attr "id", "deck-current"
+          unless @editor.isFocused()
+            @editor.getSelection().setRange(@getPageRange(to))
+            @editor.centerSelection()
+          if Session.get('isDemoMode') is false \
+          and @isOwner is true \
+          and Session.get('isInFullScreen') is true \
+          and @isSyncDeck is true
+            Files.update Session.get("hastId"), $set:
+              currentSlide: @currentSlide
+        , 20
+        , true
+      )
 
     handleEditorChange: ->
-      @editor.on "change", (data)=>
+      @editor.getSession().getDocument().on "change", (data)=>
         @setTimerClear()
         @setTimerRefresh =>
           @refreshDeck()
@@ -72,16 +97,21 @@ Template.Hast.rendered = ->
         @setTimerSave =>
           @saveData()
           @refreshMathJax("deck-container")
-      @editor.on "changeSelection", =>
-        $.deck "go", @getPageNumFromEditor()
+
+      @editor.getSelection().on "changeCursor", =>
+        targetSlide = @getPageNumFromEditor()
+        $.deck "go", targetSlide
+        @currentSlide = targetSlide
 
     init: ->
-      @handleEditorChange()
       @setData()
       @refreshDeck()
-      @handleDeckChange()
       @setMathJax()
       @setFullScreenHandler()
+      @handleEditorChange()
+      @handleDeckChange()
+      @getPageNumFromEditor()
+      return null
 
     setFullScreenHandler: ->
       Session.whenTrue 'isInFullScreen',
@@ -136,15 +166,7 @@ Template.Hast.rendered = ->
           else
             "<section class=\"slide\">#{c(slide)}</section>"
         ), (a, b) -> (a + b)
-      $("#deck-container").html getSlidesHtmls(slidesMd, @converter) + '
-        <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
-        <a href="#" class="deck-next-link" title="Next">&#8594;</a>
-        <p class="deck-status">
-        <span class="deck-status-current"></span>
-        /
-        <span class="deck-status-total"></span>
-        </p>
-      '
+      $("#deck-container").html getSlidesHtmls(slidesMd, @converter)
       $("#deck-container").find('a').attr('target', '_blank')
       Prism.highlightAll()
       $.deck ".slide"
@@ -176,6 +198,7 @@ Template.Hast.rendered = ->
 
     setData: ->
       Session.whenTrue 'isDemoMode', =>
+        $('.sync-deck-btn').addClass('no-display')
         $('.save-btn').removeClass('no-display')
         Meteor.call 'demoContent', (err, demoContent)=>
           @editor.setValue(
@@ -183,6 +206,7 @@ Template.Hast.rendered = ->
             -1
           )
       Session.whenFalse 'isDemoMode', =>
+        $('.sync-deck-btn').removeClass('no-display')
         $('.save-btn').addClass('no-display')
         Meteor.call 'getHast', Session.get('hastId'), (err, file) =>
           if file
