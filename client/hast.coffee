@@ -1,3 +1,12 @@
+EventHorizon.fireWhenTrue 'loggedIn', ->
+  return Meteor.userId()?
+
+EventHorizon.on 'loggedIn', ->
+  location.reload()
+
+Deps.autorun ->
+  Meteor.subscribe "hast", Session.get("hastId")
+
 Template.Hast.rendered = ->
   class Panel
     constructor: ->
@@ -7,12 +16,18 @@ Template.Hast.rendered = ->
       @editor.getSession().setUseWrapMode true
       @Range = ace.require('ace/range').Range
       @markedOptions =
-        langPrefix: "language-"
-        sanitize: false
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: true,
+        smartLists: true,
+        smartypants: false,
+        langPrefix: 'language-',
       @converter = (md) ->
         marked(md, @markOptions)
       @currentSlide = 0
-      @isSyncDeck = false
+      @isSyncDeck = true
       @timerRefresh = undefined
       @timerSave = undefined
       @isOwner = false
@@ -46,15 +61,17 @@ Template.Hast.rendered = ->
       return @currentSlide = 0
 
     setTimerSave: (callback) ->
-      @timerRefresh = Meteor.setTimeout(->
+      @timerSave= Meteor.setTimeout(=>
         callback()
       , 3000)
+      console.log @timerSave
     setTimerRefresh: (callback) ->
-      @timerSave = Meteor.setTimeout(->
+      @timerRefresh= Meteor.setTimeout(=>
         callback()
       , 300)
     setTimerClear: ->
-      Meteor.clearTimeout @timer
+      Meteor.clearTimeout @timerRefresh
+      Meteor.clearTimeout @timerSave
 
     saveData: ->
       if @editor.getReadOnly() is false
@@ -62,16 +79,17 @@ Template.Hast.rendered = ->
           localStorage.setItem 'demoContent', @editor.getValue()
           @flashMessage "Saved in local"
         else
+          console.log 'saved'
           Files.update Session.get("hastId"), $set:
             content: @editor.getValue()
             title: @getTitle()
           @flashMessage "Saved in server"
 
-    handleDeckChange: =>
+    handleDeckChange: ->
       $(document).off "deck.change"
       $(document).on "deck.change", _.debounce(
         (event, from, to) =>
-          $.deck("getSlide", from).attr "id", ""
+          $.deck("getSlide", from).removeAttr 'id'
           $.deck("getSlide", to).attr "id", "deck-current"
           unless @editor.isFocused()
             @editor.getSelection().setRange(@getPageRange(to))
@@ -90,10 +108,10 @@ Template.Hast.rendered = ->
       @editor.getSession().getDocument().on "change", (data)=>
         @setTimerClear()
         @setTimerRefresh =>
-          @refreshDeck()
-          @refreshMathJax("deck-current")
+          @refreshCurrentDeck()
         @setTimerSave =>
           @saveData()
+          @refreshDeck()
           @refreshMathJax("deck-container")
 
       @editor.getSelection().on "changeCursor", =>
@@ -152,7 +170,6 @@ Template.Hast.rendered = ->
         .fadeOut(3000)
 
     refreshDeck: ->
-      @flashMessage('Saving...')
       slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\") \
         .split(@pageDivider)
       getSlidesHtmls = (Mds, c) ->
@@ -170,19 +187,31 @@ Template.Hast.rendered = ->
       $.deck ".slide"
       $.deck "go", @currentSlide
 
-    setReadOnlyMode: =>
+    refreshCurrentDeck: ->
+      @flashMessage('Saving...')
+      slideMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\") \
+        .split(@pageDivider)[@currentSlide]
+      $.deck('getSlide', @currentSlide).html(@converter(slideMd))
+      Prism.highlightAll()
+      @refreshMathJax("deck-current")
+
+    setReadOnlyMode: ->
       unless @isOwner
         @editor.setReadOnly true
         $('.editor-header-message').html('(Read Only)')
-        Meteor.subscribe 'Hast', Session.get('hastId')
-        Files.find(Session.get('hastId')).observeChanges
-          changed: (id, fields) =>
+      Files.find(Session.get('hastId')).observeChanges
+        changed: _.debounce(
+          (id, fields) =>
             if fields.content?
-              @editor.setValue fields.content, -1
+              unless $.windowActive
+                @editor.setValue fields.content, -1
             if @isSyncDeck is true and fields.currentSlide?
               $.deck("go", fields.currentSlide)
             @refreshDeck
             @refreshMathJax
+          , 100
+          , false
+        )
 
     getTitle: ->
       titleString = @converter(

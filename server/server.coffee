@@ -1,4 +1,4 @@
-Meteor.publish "Hast", (hastId) ->
+Meteor.publish "hast", (hastId) ->
   file = Files.findOne hastId
   if file and (file.userId is @userId or file.type is 'public')
     return Files.find hastId,
