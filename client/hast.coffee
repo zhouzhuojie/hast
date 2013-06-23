@@ -7,6 +7,9 @@ EventHorizon.on 'loggedIn', ->
 Deps.autorun ->
   Meteor.subscribe "hast", Session.get("hastId")
 
+Template.Hast.mode = ->
+  Session.get 'isDemoMode'
+
 Template.Hast.rendered = ->
   class Panel
     constructor: ->
@@ -63,8 +66,7 @@ Template.Hast.rendered = ->
     setTimerSave: (callback) ->
       @timerSave= Meteor.setTimeout(=>
         callback()
-      , 3000)
-      console.log @timerSave
+      , 800)
     setTimerRefresh: (callback) ->
       @timerRefresh= Meteor.setTimeout(=>
         callback()
@@ -79,7 +81,6 @@ Template.Hast.rendered = ->
           localStorage.setItem 'demoContent', @editor.getValue()
           @flashMessage "Saved in local"
         else
-          console.log 'saved'
           Files.update Session.get("hastId"), $set:
             content: @editor.getValue()
             title: @getTitle()
@@ -195,7 +196,7 @@ Template.Hast.rendered = ->
       Prism.highlightAll()
       @refreshMathJax("deck-current")
 
-    setReadOnlyMode: ->
+    setDataListener: ->
       unless @isOwner
         @editor.setReadOnly true
         $('.editor-header-message').html('(Read Only)')
@@ -203,7 +204,7 @@ Template.Hast.rendered = ->
         changed: _.debounce(
           (id, fields) =>
             if fields.content?
-              unless $.windowActive
+              if $.windowActive is false or @isOwner is false
                 @editor.setValue fields.content, -1
             if @isSyncDeck is true and fields.currentSlide?
               $.deck("go", fields.currentSlide)
@@ -239,7 +240,7 @@ Template.Hast.rendered = ->
           if file
             @editor.setValue file.content or "loading...", -1
             @isOwner = if file.userId is Meteor.userId() then true else false
-            @setReadOnlyMode()
+            @setDataListener()
           else
             Meteor.Router.to '/404'
 

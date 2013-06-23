@@ -1,5 +1,6 @@
 <head>
 <title>Hast</title>
+<link rel="stylesheet" type="text/css" href="/hacky.css" />
 </head>
 <body>
   {{renderPage}}
@@ -8,7 +9,9 @@
 <template name="header">
 <header class="navbar full-screen-related">
     <div class="navbar-inner customized">
-      <a class="brand" href="/">Hast</a>
+      <a class="brand" href="/">
+        Hast
+      </a>
       <ul class="nav">
         <li class="">
         <a href="{{homePath}}">New</a>
@@ -39,7 +42,7 @@
 
 <template name="Hast">
 {{> header}}
-<div class="new-hast-box row-fluid">
+<div class="new-hast-box row-fluid mode-isDemoMode-{{mode}}">
   <div class="deck-box span8">
     <div class="deck-container full-screen-related" id="deck-container">
     </div>
