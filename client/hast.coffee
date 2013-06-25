@@ -35,9 +35,11 @@ Template.Hast.rendered = ->
       @timerSave = undefined
       @isOwner = false
       @pageDivider = '////'
+      @timerSaveInterval = 800
+      @timerRefreshInterval= 300
 
     getPageRange: (page)->
-      if @pageNum.length >= 1
+      if @pageNum?.length >= 1
         if page is 0
           [r1, r2] = [0, @pageNum[0]]
         else if page >= (@pageNum.length)
@@ -51,12 +53,15 @@ Template.Hast.rendered = ->
       else
         return r = new @Range(0, 0, 0, 0)
 
-    getPageNumFromEditor: ->
-      currentRow = @editor.getCursorPosition().row
+    setPageNum: ->
       textLines = @editor.getValue().split('\n')
       @pageNum = (
         i for val, i in textLines when _.str.contains(val, @pageDivider)
       )
+
+    getPageNumFromEditor: ->
+      currentRow = @editor.getCursorPosition().row
+      @setPageNum()
       unless @pageNum.length is 0
         result = _.map(@pageNum, (num)-> if num<currentRow then 1 else 0)
         result = _.reduce(result, (s,t) -> s + t)
@@ -66,11 +71,11 @@ Template.Hast.rendered = ->
     setTimerSave: (callback) ->
       @timerSave= Meteor.setTimeout(=>
         callback()
-      , 800)
+      , @timerSaveInterval)
     setTimerRefresh: (callback) ->
       @timerRefresh= Meteor.setTimeout(=>
         callback()
-      , 300)
+      , @timerRefreshInterval)
     setTimerClear: ->
       Meteor.clearTimeout @timerRefresh
       Meteor.clearTimeout @timerSave
@@ -88,22 +93,18 @@ Template.Hast.rendered = ->
 
     handleDeckChange: ->
       $(document).off "deck.change"
-      $(document).on "deck.change", _.debounce(
-        (event, from, to) =>
-          $.deck("getSlide", from).removeAttr 'id'
-          $.deck("getSlide", to).attr "id", "deck-current"
-          unless @editor.isFocused()
-            @editor.getSelection().setRange(@getPageRange(to))
-            @editor.centerSelection()
-          if Session.get('isDemoMode') is false \
-          and @isOwner is true \
-          and Session.get('isInFullScreen') is true \
-          and @isSyncDeck is true
-            Files.update Session.get("hastId"), $set:
-              currentSlide: @currentSlide
-        , 1
-        , true
-      )
+      $(document).on "deck.change", (event, from, to) =>
+        $.deck("getSlide", from).removeAttr 'id'
+        $.deck("getSlide", to).attr "id", "deck-current"
+        unless @editor.isFocused()
+          @editor.getSelection().setRange(@getPageRange(to))
+          @editor.centerSelection()
+        if Session.get('isDemoMode') is false \
+        and @isOwner is true \
+        and Session.get('isInFullScreen') is true \
+        and @isSyncDeck is true
+          Files.update Session.get("hastId"), $set:
+            currentSlide: @currentSlide
 
     handleEditorChange: ->
       @editor.getSession().getDocument().on "change", (data)=>
@@ -126,7 +127,6 @@ Template.Hast.rendered = ->
       @setFullScreenHandler()
       @handleEditorChange()
       @handleDeckChange()
-      @getPageNumFromEditor()
       @editor.focus()
       return null
 
@@ -233,12 +233,14 @@ Template.Hast.rendered = ->
             localStorage.getItem('demoContent') or demoContent or "loading..."
             -1
           )
+          @setPageNum()
       Session.whenFalse 'isDemoMode', =>
         $('.sync-deck-btn').removeClass('no-display')
         $('.save-btn').addClass('no-display')
         Meteor.call 'getHast', Session.get('hastId'), (err, file) =>
           if file
             @editor.setValue file.content or "loading...", -1
+            @setPageNum()
             @isOwner = if file.userId is Meteor.userId() then true else false
             @setDataListener()
           else
