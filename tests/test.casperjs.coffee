@@ -1,4 +1,4 @@
-url = "http://192.168.1.130:3000/"
+url = "http://localhost:3000/"
 casper = require('casper').create
   verbose: true
 
@@ -63,7 +63,7 @@ casper.then ->
     __utils__.visible('.save-btn')
   , 'Visible for save-btn'
 
-  @wait 800, ->
+  @wait 1800, ->
     @test.assertEval ->
       MathJax?
     , 'Loaded MathJax'
@@ -97,7 +97,7 @@ casper.then ->
   @evaluate ->
     Meteor.loginWithPassword 'test1@1.com', '111111'
     return
-  @wait 1200
+  @wait 1800
 
 casper.then ->
   @test.assertEval ->
@@ -162,15 +162,10 @@ casper.then ->
     __utils__.visible('.save-btn') is false
   , 'Invisible for save-btn'
 
-
   @wait 800, ->
     @test.assertEval ->
       MathJax?
     , 'Loaded MathJax'
-
-    @test.assertEval ->
-      localStorage.getItem('demoContent') is panel.editor.getValue()
-    , 'LocalStorage has loaded data'
 
     @test.assertEval ->
       panel.pageNum?
@@ -205,7 +200,7 @@ casper.then ->
   , '.exit-full-screen-btn visible in Full Screen Mode'
 
 casper.then ->
-  @click '.full-screen-btn'
+  @click '.exit-full-screen-btn'
 
 casper.then ->
   @test.assertEval ->

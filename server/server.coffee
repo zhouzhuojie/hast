@@ -1,4 +1,6 @@
 Meteor.publish "hast", (hastId) ->
+  check hastId, String
+
   file = Files.findOne hastId
   if file and (file.userId is @userId or file.type is 'public')
     return Files.find hastId,
@@ -8,6 +10,8 @@ Meteor.publish "hast", (hastId) ->
         userId: 1
         type: 1
         currentSlide: 1
+        theme : 1
+        transition : 1
   else
     return null
 
@@ -27,6 +31,8 @@ Meteor.methods
     return Files.findOne({test:true}).content
 
   getHast: (hastId) ->
+    check hastId, String
+
     file = Files.findOne hastId
     if file and (file.userId is Meteor.userId() or file.type is 'public')
       return file
@@ -34,6 +40,10 @@ Meteor.methods
       return null
 
   addFile: (fileAttributes) ->
+    check fileAttributes,
+      title: String
+      content: String
+
     user = Meteor.user()
     unless user
       throw new Meteor.Error(401, "You need to login to post new stories")
@@ -53,6 +63,8 @@ Meteor.methods
     fileId: fileId
 
   updateType: (hastId, isPublic) ->
+    check hastId, String
+    check isPublic, Boolean
     user = Meteor.user()
     unless user
       throw new Meteor.Error(401, "You need to login to post new stories")

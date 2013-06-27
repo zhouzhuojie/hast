@@ -1,6 +1,7 @@
 <head>
 <title>Hast</title>
-<link rel="stylesheet" type="text/css" href="/hacky.css" />
+<link id="theme-link" rel="stylesheet" type="text/css" href="/theme/none.css" />
+<link id="transition-link" rel="stylesheet" type="text/css" href="/transition/none.css" />
 </head>
 <body>
   {{renderPage}}
@@ -13,14 +14,12 @@
         Hast
       </a>
       <ul class="nav">
-        <li class="">
+        <li>
         <a href="{{homePath}}">New</a>
         </li>
-        <li class="">
-          <a href="{{archivesPath}}">Archives</a>
+        <li>
+        <a href="{{archivesPath}}">Archives</a>
         </li>
-      </ul>
-      <ul class="nav">
         <li>{{loginButtons}}</li>
       </ul>
       <ul class="nav pull-right messages">
@@ -57,10 +56,43 @@
   </div>
   <div class="exit-full-screen-area full-screen-related">
     <div class="full-screen-btn-group">
-      <span class="save-btn btn btn-info btn-small">Save </span>
       <span class="full-screen-btn btn btn-small btn-info">Full Screen</span>
+      <span class="btn-group dropup theme-btn">
+        <button class="btn btn-info btn-small dropdown-toggle" data-toggle="dropdown">
+          Themes <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="theme-selection" href="#">None</a></li>
+          <li><a class="theme-selection" href="#">Hacky</a></li>
+          <li><a class="theme-selection" href="#">MNML</a></li>
+          <li><a class="theme-selection" href="#">Neon</a></li>
+          <li><a class="theme-selection" href="#">Web-2.0</a></li>
+          <li><a class="theme-selection" href="#">Swiss</a></li>
+          <li><a class="theme-selection" href="#">SandStone</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Aurora</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Dark</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Default</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Firefox</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Light</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Mdn</a></li>
+          <li><a class="theme-selection" href="#">SandStone.Nightly</a></li>
+        </ul>
+      </span>
+      <span class="btn-group dropup transition-btn">
+        <button class="btn btn-info btn-small dropdown-toggle" data-toggle="dropdown">
+          Transitions <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="transition-selection" href="#">None</a></li>
+          <li><a class="transition-selection" href="#">Cube</a></li>
+          <li><a class="transition-selection" href="#">Fade</a></li>
+          <li><a class="transition-selection" href="#">Horizontal</a></li>
+          <li><a class="transition-selection" href="#">Vertical</a></li>
+        </ul>
+      </span>
       <span class="exit-full-screen-btn fade-btn btn btn-small btn-info">Exit Full Screen</span>
       <span class="sync-deck-btn fade-btn btn btn-small btn-info">Sync Play: On</span>
+      <span class="save-btn btn btn-info btn-small">Save </span>
     </div>
   </div>
 </div>

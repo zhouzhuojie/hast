@@ -8,4 +8,11 @@ ownFile = (userId, file) ->
   remove: ownFile
 
 @Files.deny update: (userId, file, fieldNames) ->
-  _.without(fieldNames, "content", "title", "currentSlide").length > 0
+  _.without(
+    fieldNames
+  , "content"
+  , "title"
+  , "currentSlide"
+  , "theme"
+  , "transition"
+  ).length > 0

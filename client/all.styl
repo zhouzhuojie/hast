@@ -3,6 +3,10 @@ html, body
     padding 0
     margin 0
 
+.csstransforms .slide h1
+    position relative
+    top 1em
+
 .navbar
     margin-bottom 0
 
@@ -26,9 +30,11 @@ html, body
 
 .deck-box
     height 100%
-    padding-top 3em
+    padding-top 1em
+    padding-bottom 1.5em
 
 .deck-container
+    margin-left 1em
     min-height 95%
     max-height 95%
     overflow-y auto
@@ -44,18 +50,27 @@ html, body
     height 100%
 
 .deck-container.inFullScreen
-    position  absolute
-    bottom    0
+    position  fixed
+    top       0
     right     0
     left      0
     width     auto
     height    auto
     min-height 100%
     max-height 100%
-    padding   0em 10em
     overflow-y auto
     z-index   2000
     background-color #FFFFFF
+    margin 0 auto
+    padding 0
+
+.deck-container.inFullScreen .slide
+    position absolute
+    top 0
+    bottom 0
+    left 0
+    right 0
+    padding  0em 5em
 
 .editor-box.inFullScreen
     display none
@@ -65,8 +80,8 @@ html, body
 
 .full-screen-btn-group
     position absolute
-    bottom 2.5em
-    left 3em
+    bottom 1.5em
+    left 1.75em
     margin auto
     font-size 1em
 
@@ -78,13 +93,13 @@ html, body
     display none
 
 .sync-deck-btn.no-display
-    display none !important
+    display none
 
 .exit-full-screen-area
     position absolute
     left 0
     bottom 0
-    width 25em
+    width 30em
     height 15em
     z-index 2001
 
@@ -93,9 +108,15 @@ html, body
 
 .exit-full-screen-area.inFullScreen .fade-btn
     display inline-block
-    opacity 0.2
+    opacity 0.05
 
 .exit-full-screen-area.inFullScreen .save-btn
+    display none
+
+.exit-full-screen-area.inFullScreen .theme-btn
+    display none
+
+.exit-full-screen-area.inFullScreen .transition-btn
     display none
 
 .exit-full-screen-area.inFullScreen .full-screen-btn

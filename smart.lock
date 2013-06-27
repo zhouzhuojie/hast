@@ -14,8 +14,7 @@
       },
       "accounts-ui-bootstrap-dropdown": {},
       "session-extras": {},
-      "event-horizon": {},
-      "underscore-string": {}
+      "event-horizon": {}
     },
     "packages": {
       "router": {
@@ -52,11 +51,6 @@
         "git": "https://github.com/belisarius222/meteor-event-horizon.git",
         "tag": "v0.1.1",
         "commit": "f7d19e16bf7527c34d853a9bc9002e9be53bdb9b"
-      },
-      "underscore-string": {
-        "git": "https://github.com/possibilities/meteor-underscore-string.git",
-        "tag": "v2.2.0rc.1",
-        "commit": "dec21fac23310daf76dc19f246749e7beb48af03"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

@@ -10,7 +10,6 @@
     },
     "accounts-ui-bootstrap-dropdown": {},
     "session-extras": {},
-    "event-horizon": {},
-    "underscore-string": {}
+    "event-horizon": {}
   }
 }
