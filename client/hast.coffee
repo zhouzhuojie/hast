@@ -142,10 +142,12 @@ class Panel
     Session.whenTrue 'isInFullScreen',
       ->
         $('.full-screen-related').addClass('inFullScreen')
+        $("#deck-container").fitText(5.5)
       , true
     Session.whenFalse 'isInFullScreen',
       ->
         $('.full-screen-related').removeClass('inFullScreen')
+        $("#deck-container").fitText(4)
       , true
 
     $(document).keydown (e) ->
@@ -233,6 +235,8 @@ class Panel
     Prism.highlightAll()
     $.deck ".slide"
     $.deck "go", @currentSlide
+    $("#deck-container").fitText(3.7)
+
 
   refreshCurrentDeck: ->
     if @editor.getReadOnly() is false

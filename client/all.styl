@@ -4,8 +4,7 @@ html, body
     margin 0
 
 .csstransforms .slide h1
-    position relative
-    top 1em
+    position static
 
 .navbar
     margin-bottom 0
@@ -49,6 +48,11 @@ html, body
 #editor
     height 100%
 
+.deck-container .slide h1
+    position relative !important
+    line-height 1em !important
+    margin-top 1.2em !important
+
 .deck-container.inFullScreen
     position  fixed
     top       0
@@ -60,20 +64,14 @@ html, body
     max-height 100%
     overflow-y auto
     z-index   2000
-    background-color #FFFFFF
     margin 0 auto
     padding 0
 
 .deck-container.inFullScreen .slide
-    position absolute
-    top 0
-    bottom 0
-    left 0
-    right 0
-    padding  0em 5em
+    padding 0 10% !important
 
 .editor-box.inFullScreen
-    display none
+    visibility hidden
 
 .navbar.inFullScreen
     display none
