@@ -1,44 +1,52 @@
 demoContent =
 """
-Welcome to HackyNote
-====================
-Presentations made by Hackers
------------------
+//Hast
+=========
+
+Presentation On the Fly
+---------------
+
+////
+How it works
+-------------------
+
+<iframe src="http://www.screenr.com/embed/oThH" width="800" height="500" frameborder="0"></iframe>
 
 //// <!-- Page Divider -->
 
-A Second Level Header
+Introduction
 ---------------------
 
-Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.
+Hast.me is a WYSISYG markdown flavor presentation tool made for everyone! We love markdown, did I mention [it](http://daringfireball.net/projects/markdown/)? It uses [github style markdown](https://help.github.com/articles/github-flavored-markdown).
 
-The quick brown fox jumped over the lazy
-dog's back.
 
-### Header 3
-
-> This is a blockquote.
->
-> This is the second paragraph in the blockquote.
+> ##### Big Thanks to these great open source projects: 
+> ##### 
+[Hackynote](https://github.com/thiagofelix/hackynote)
+[DeckJS](https://github.com/imakewebthings/deck.js)
+[Marked](https://github.com/chjj/marked)
+[aceEditor](https://github.com/ajaxorg/ace)
+[Meteor](http://meteor.com/)
+[PrismJS](http://prismjs.com/)
 
 ////
 
-Phrase Emphasis
+Sync between the editor and presentation
 ---------------------
 
-Some of these words *are emphasized*.
-Some of these words _are emphasized also_.
-
-Use two asterisks for **strong emphasis**.
-Or, if you prefer, __use two underscores instead__.
+![](http://i1336.photobucket.com/albums/o641/00zzj/Hast/Screenshot_062313_121713_AM_zps1001580f.jpg)
 
 ////
 
-Math Tex
+Broadcast to your audience
+---------------
+![](http://i1336.photobucket.com/albums/o641/00zzj/Hast/Screenshot_062313_123238_AM_zps1acb06bb.jpg)
+
+###### Control the slides and hot push your changes
+////
+
+Guess you love Maths
 ------------
-
 * The probability of getting k heads when flipping n coins is
 
 $$P(E)   = {n \\choose k} p^k (1-p)^{ n-k} $$
@@ -57,84 +65,83 @@ $$\\frac{1}{\\Bigl(\\sqrt{\\phi \\sqrt{5}}-\\phi\\Bigr) e^{\\frac25 \\pi}} =
 
 ////
 
-Lists
+And coding? (cont'd.)
 ---------------------
+#### Python sample code
+```python
+def qsort1(list):
+    if list == []:
+        return []
+    else:
+        pivot = list[0]
+        lesser = qsort1([x for x in list[1:] if x < pivot])
+        greater = qsort1([x for x in list[1:] if x >= pivot])
+        return lesser + [pivot] + greater
 
-Unordered (bulleted) lists use asterisks,
-pluses, and hyphens (*, +, and -) as list markers.
-These three markers are interchangable;
+```
+////
 
-**using** *:
+And coding?
+---------------
+#### Javascript sample code
+```javascript
+function qsort(array, begin, end)
+{
+  if(end-1>begin) {
+    var pivot=begin+Math.floor(Math.random()*(end-begin));
 
-*   Candy.
-*   Gum.
+    pivot=partition(array, begin, end, pivot);
 
-**and using** -:
+    qsort(array, begin, pivot);
+    qsort(array, pivot+1, end);
+  }
+}
 
--   Candy.
--   Gum.
+```
+////
 
-Ordered (numbered) lists use regular numbers,
-followed by periods, as list markers:
+Image?
+----------
 
-1.  Red
-2.  Green
-3.  Blue
+![](http://neeleshb.github.io/ghyd-html5/images/html5_sticker.png)
+
+
+////
+Video?
+--------
+
+<iframe src="http://player.vimeo.com/video/69228454" width="700" height="481" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href="http://vimeo.com/69228454">Bye Bye Bunny</a> from <a href="http://vimeo.com/user19205524">Bye Bye Bunny</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+////
+
+Documents?
+-------------
+<iframe src="http://arxiv.org/pdf/1211.5184v1.pdf" width="900" height="700" />
+
 
 ////
 
-Links
----------------------
+Anything!!
+------------
 
-Markdown supports two styles for creating links: inline and reference.
-With both styles, you use square brackets to delimit the text you want
-to turn into a link.
+###### Like a D3 Visualization
+<iframe src="http://mbostock.github.io/d3/talk/20111116/bundle.html" width="1000" height="800"/>
 
-Inline-style links use parentheses immediately after the link text. For example:
-
-This is an [example link](http://example.com/).
-
-Optionally, you may include a title attribute in the parentheses:
-
-This is an [example link](http://example.com/ "With a Title").
-
-Reference-style links allow you to refer to your links by names,
-which you define elsewhere in your document:
-
-I get 10 times more traffic from [Google][1] than from
-[Yahoo][2] or [MSN][3].
-
-[1]: http://google.com/        "Google"
-[2]: http://search.yahoo.com/  "Yahoo Search"
-[3]: http://search.msn.com/    "MSN Search"
-
-The title attribute is optional. Link names may contain letters,
-numbers and spaces, but are not case sensitive:
-
-I start my morning with a cup of coffee and
-[The New York Times][NY Times].
-
-[ny times]: http://www.nytimes.com/
 
 ////
+Features
+-----------
 
-Images
----------------------
-Image syntax is very much like link syntax.
-
-Inline (titles are optional):
-
-![alt text](http://alturl.com/qx45f "I feel nice coding my presentations \o/o")
-
+* #### Save as you type...
+* #### Share public presentations
+* #### Sync everything
+* #### Easy user privacy control
 ////
 
 End
 ====================
 
-Start you next
----------------------
-Hack Presentation
----------------------
+Let's get started! [Hast.me]()
+-------------------
 """
 
 if Files.find().count() is 0
