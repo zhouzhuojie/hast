@@ -1,6 +1,6 @@
 Hast
 =========
-Hast is a WYSISYG markdown flavor presentation tool made for everyone! We love markdown, did I mention [it](http://daringfireball.net/projects/markdown/)? It uses [github style markdown](https://help.github.com/articles/github-flavored-markdown). It quickly does the real time broadcasting and hot pushing changes. Hast uses Meteor, DeckJS, aceEditor, etc.
+Hast is a WYSISYG markdown flavor presentation tool made for everyone! We love markdown, did I mention it? It uses github style markdown. It quickly does the real time broadcasting and hot pushing changes. Hast uses Meteor, DeckJS, aceEditor, etc.
 
 Website: [Hast.me](http://hast.me)
 
