@@ -12,7 +12,9 @@
         "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
         "branch": "master"
       },
-      "accounts-ui-bootstrap-dropdown": {},
+      "accounts-ui-bootstrap-dropdown": {
+        "version": "0.1.3"
+      },
       "session-extras": {},
       "event-horizon": {}
     },
