@@ -37,6 +37,8 @@ class Panel
     @timerSaveInterval = 1800
     @timerRefreshInterval= 300
     @windowActive = false
+    @normalFitRatio = 4
+    @fullScreenFitRatio = 6.5
 
   getPageRange: (page)->
     if @pageNum?.length >= 1
@@ -140,14 +142,14 @@ class Panel
 
   setFullScreenHandler: ->
     Session.whenTrue 'isInFullScreen',
-      ->
+      =>
         $('.full-screen-related').addClass('inFullScreen')
-        $("#deck-container").fitText(5.5)
+        $("#deck-container").fitText(@fullScreenFitRatio)
       , true
     Session.whenFalse 'isInFullScreen',
-      ->
+      =>
         $('.full-screen-related').removeClass('inFullScreen')
-        $("#deck-container").fitText(4)
+        $("#deck-container").fitText(@normalFitRatio)
       , true
 
     $(document).keydown (e) ->
@@ -235,7 +237,7 @@ class Panel
     Prism.highlightAll()
     $.deck ".slide"
     $.deck "go", @currentSlide
-    $("#deck-container").fitText(3.7)
+    $("#deck-container").fitText(@normalFitRatio)
 
 
   refreshCurrentDeck: ->
@@ -289,10 +291,10 @@ class Panel
       Meteor.call 'demoContent', (err, demoContent)=>
         @editor.setValue(
           localStorage.getItem('demoContent') or demoContent or "loading..."
-          @theme = localStorage.getItem 'theme'
-          @transition = localStorage.getItem 'transition'
           -1
         )
+        @theme = localStorage.getItem 'theme'
+        @transition = localStorage.getItem 'transition'
         dataDeferred.resolve()
     else
       $('.sync-deck-btn').removeClass('no-display')
