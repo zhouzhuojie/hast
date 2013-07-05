@@ -128,8 +128,10 @@ class Panel
 
   init: ->
     @setFullScreenHandler()
+    @flashMessage('Loading...', 10000)
     setData = @setData()
     setData.done =>
+      @flashMessage('Loaded', 1000)
       @refreshDeck()
       @handleEditorChange()
       @handleDeckChange()
@@ -207,12 +209,12 @@ class Panel
   refreshMathJax: (elementId) ->
     MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
 
-  flashMessage: (message)->
+  flashMessage: (message, time=3000) ->
     $("#message-notice")
       .stop(true, true)
       .html(message)
       .show()
-      .fadeOut(3000)
+      .fadeOut(time)
 
   setPanelActiveListener: ->
     window.focus =>
