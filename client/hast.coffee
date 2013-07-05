@@ -338,9 +338,16 @@ Template.Hast.events
           panel.flashMessage result.message
           Meteor.Router.to "/hast/" + result.fileId
           panel.setData()
+          bootbox.alert "
+            Congratulations! Your hast has been saved in the cloud.
+            You can easily manage them in the archives.
+          "
       )
     else
-      panel.flashMessage "Please log in to save your own files"
+      bootbox.alert "
+        Oops, please log in to save and share your own hast in the cloud.
+        Your current hast is already saved in localStorage anyway.
+      "
 
   "click .mathjax-btn": ->
     window.panel.refreshMathJax 'deck-container'
