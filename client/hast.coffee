@@ -326,7 +326,7 @@ class SingletonPanel
     return instance
 
 Template.Hast.rendered = ->
-  window.panel = SingletonPanel.new()
+  window.panel = SingletonPanel.get()
 
 Template.Hast.events
   "click .save-btn": ->
