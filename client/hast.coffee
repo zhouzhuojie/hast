@@ -12,11 +12,6 @@ Template.Hast.mode = ->
 
 class Panel
   constructor: ->
-    @editor = ace.edit('editor')
-    @editor.setTheme "ace/theme/chrome"
-    @editor.getSession().setMode "ace/mode/markdown"
-    @editor.getSession().setUseWrapMode true
-    @Range = ace.require('ace/range').Range
     @markedOptions =
       gfm: true,
       tables: true,
@@ -39,6 +34,13 @@ class Panel
     @windowActive = false
     @normalFitRatio = 4
     @fullScreenFitRatio = 6.5
+
+  setEditor: ->
+    @editor = ace.edit('editor')
+    @editor.setTheme "ace/theme/chrome"
+    @editor.getSession().setMode "ace/mode/markdown"
+    @editor.getSession().setUseWrapMode true
+    @Range = ace.require('ace/range').Range
 
   getPageRange: (page)->
     if @pageNum?.length >= 1
@@ -127,6 +129,7 @@ class Panel
       $.deck "go", targetSlide
 
   init: ->
+    @setEditor()
     @setFullScreenHandler()
     @flashMessage('Loading...', 10000)
     setData = @setData()
@@ -291,7 +294,7 @@ class Panel
       $('.sync-deck-btn').addClass('no-display')
       $('.save-btn').removeClass('no-display')
       Meteor.call 'demoContent', (err, demoContent)=>
-        @editor.setValue(
+        @editor?.setValue(
           localStorage.getItem('demoContent') or demoContent or "loading..."
           -1
         )
@@ -303,7 +306,7 @@ class Panel
       $('.save-btn').addClass('no-display')
       Meteor.call 'getHast', Session.get('hastId'), (err, file) =>
         if file?
-          @editor.setValue file.content or "loading...", -1
+          @editor?.setValue file.content or "loading...", -1
           @theme = file.theme
           @transition = file.transition
           @isOwner = if file.userId is Meteor.userId() then true else false
@@ -317,6 +320,7 @@ class SingletonPanel
   instance = null
   @get : ->
     if instance?
+      instance.init()
       return instance
     else
       return @new()
