@@ -1,7 +1,12 @@
 <head>
-<title>Hast</title>
-<link id="theme-link" rel="stylesheet" type="text/css" href="/theme/swiss.css" />
-<link id="transition-link" rel="stylesheet" type="text/css" href="/transition/fade.css" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hast: live presentation</title>
+  <meta name="description" content="Hast is a WYSISYG markdown flavor presentation tool made for everyone! We love markdown, did I mention it? It uses github style markdown. It quickly does the real time broadcasting and hot pushing changes. Hast uses Meteor, DeckJS, aceEditor, etc.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link id="theme-link" rel="stylesheet" type="text/css" href="/theme/swiss.css" />
+  <link id="transition-link" rel="stylesheet" type="text/css" href="/transition/fade.css" />
 </head>
 <body>
   {{renderPage}}
@@ -10,33 +15,33 @@
 
 <template name="header">
 <header class="navbar full-screen-related">
-    <div class="navbar-inner customized">
-      <a class="brand" href="/">
-        Hast
-      </a>
-      <ul class="nav">
-        <li>
-        <a href="{{homePath}}">New</a>
-        </li>
-        <li>
-        <a href="{{archivesPath}}">Archives</a>
-        </li>
-        <li>{{loginButtons}}</li>
-      </ul>
-      <ul class="nav pull-right messages">
-        <li class="message-notice-wrapper"><span class="label" id="message-notice"></span></li>
-      </ul>
-    </div>
-  </header>
+  <div class="navbar-inner customized">
+    <a class="brand" href="/">
+      Hast
+    </a>
+    <ul class="nav">
+      <li>
+      <a href="{{homePath}}">New</a>
+      </li>
+      <li>
+      <a href="{{archivesPath}}">Archives</a>
+      </li>
+      <li>{{loginButtons}}</li>
+    </ul>
+    <ul class="nav pull-right messages">
+      <li class="message-notice-wrapper"><span class="label" id="message-notice"></span></li>
+    </ul>
+  </div>
+</header>
 </template>
 
 <template name="not_found">
 {{> header}}
 <div class="page-404">
-<h1>// Hast Not Found, Oops...</h1>
-<span><h4>This page does not exist or the hast is private.</h4></span>
-<span><h4>Why not create your own hast?</h4></span>
-<span><a class="btn btn-info" href="/">New Hast</a></span>
+  <h1>// Hast Not Found, Oops...</h1>
+  <span><h4>This page does not exist or the hast is private.</h4></span>
+  <span><h4>Why not create your own hast?</h4></span>
+  <span><a class="btn btn-info" href="/">New Hast</a></span>
 </div>
 </template>
 
