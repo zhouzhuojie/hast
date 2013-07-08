@@ -62,7 +62,7 @@ class Panel
     @pageNum = (
       i for val, i in textLines when @pageDivider.test(val)
     )
-    panel.editor.getSession().setAnnotations(
+    @editor.getSession().setAnnotations(
       {row:row, column:0, text:'Page Divider', type: 'info'}\
       for row in @pageNum
     )
@@ -293,14 +293,13 @@ class Panel
     if Session.get('isDemoMode') is true
       $('.sync-deck-btn').addClass('no-display')
       $('.save-btn').removeClass('no-display')
-      Meteor.call 'demoContent', (err, demoContent)=>
-        @editor?.setValue(
-          localStorage.getItem('demoContent') or demoContent or "loading..."
-          -1
-        )
-        @theme = localStorage.getItem 'theme'
-        @transition = localStorage.getItem 'transition'
-        dataDeferred.resolve()
+      @editor?.setValue(
+        localStorage.getItem('demoContent') or demoContent or "loading..."
+        -1
+      )
+      @theme = localStorage.getItem 'theme'
+      @transition = localStorage.getItem 'transition'
+      dataDeferred.resolve()
     else
       $('.sync-deck-btn').removeClass('no-display')
       $('.save-btn').addClass('no-display')

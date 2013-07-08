@@ -1,4 +1,4 @@
-demoContent =
+@demoContent =
 """
 //Hast
 =========
@@ -143,14 +143,3 @@ End
 Let's get started! [Hast.me]()
 -------------------
 """
-
-if Files.find().count() is 0
-  testFile =
-    content: demoContent
-    type  : 'public'
-    test  : true
-    userId: ''
-    author: 'Hast'
-    submitted: new Date().getTime()
-    title : 'Welcome'
-  Files.insert testFile
