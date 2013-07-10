@@ -16,7 +16,10 @@
         "version": "0.1.3"
       },
       "session-extras": {},
-      "event-horizon": {}
+      "event-horizon": {},
+      "user-status": {},
+      "winston-loggly": {},
+      "winston": {}
     },
     "packages": {
       "router": {
@@ -53,6 +56,21 @@
         "git": "https://github.com/belisarius222/meteor-event-horizon.git",
         "tag": "v0.1.1",
         "commit": "f7d19e16bf7527c34d853a9bc9002e9be53bdb9b"
+      },
+      "user-status": {
+        "git": "https://github.com/mizzao/meteor-user-status.git",
+        "tag": "v0.1.4",
+        "commit": "0b6c20a975cf7ba1edc539c0ae7275ff0b27633c"
+      },
+      "winston-loggly": {
+        "git": "https://github.com/tomrogers3/meteor-winston-loggly.git",
+        "tag": "v0.0.2",
+        "commit": "8110c5f52ca0bffd102403c5225d07e2c0918608"
+      },
+      "winston": {
+        "git": "https://github.com/tomrogers3/meteor-winston.git",
+        "tag": "v0.0.1",
+        "commit": "eb9070a0d5f7b2c3c7dd9c1bb2647d46b2a358cb"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
