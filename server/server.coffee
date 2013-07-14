@@ -76,28 +76,3 @@ Meteor.methods
         type: if isPublic then 'public' else 'private'
     message: "Hast Updated!"
     fileId: hastId
-
-Winston.add Winston_Loggly, winstonOptions || {}
-
-UserStatus.on "sessionLogin", (userId, sessionId, ipAddr) ->
-  Winston.info
-    type: 'login'
-    userId: userId
-    sessionId: sessionId
-    ipAddr: ipAddr
-
-UserStatus.on "sessionLogout", (userId, sessionId) ->
-  Winston.info
-    type: 'logout'
-    userId: userId
-    sessionId: sessionId
-
-Fiber = Npm.require 'fibers'
-
-__meteor_bootstrap__.app.use (req, res, next) ->
-  Fiber(->
-    Winston.info
-      type: 'connect'
-      ipAddr: req.headers['x-forwarded-for']
-    next()
-  ).run()
