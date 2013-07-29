@@ -10,9 +10,6 @@
     },
     "accounts-ui-bootstrap-dropdown": "0.1.3",
     "session-extras": {},
-    "event-horizon": {},
-    "user-status": {},
-    "winston-loggly": {},
-    "winston": {}
+    "event-horizon": {}
   }
 }
