@@ -107,33 +107,13 @@ Image?
 
 
 ////
-Video?
---------
-
-<iframe src="http://player.vimeo.com/video/69228454" width="700" height="481" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href="http://vimeo.com/69228454">Bye Bye Bunny</a> from <a href="http://vimeo.com/user19205524">Bye Bye Bunny</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
-////
-
-Documents?
--------------
-<iframe src="http://arxiv.org/pdf/1211.5184v1.pdf" width="900" height="700" />
-
-
-////
-
-Anything!!
-------------
-
-###### Like a D3 Visualization
-<iframe src="http://mbostock.github.io/d3/talk/20111116/bundle.html" width="1000" height="800"/>
-
-
-////
 Features
 -----------
 
 * #### Save as you type...
 * #### Share public presentations
 * #### Sync everything
+* #### Use iframe to include anything you want in your hast, including PDFs, D3 visualization, videos etc.
 * #### Easy user privacy control
 ////
 

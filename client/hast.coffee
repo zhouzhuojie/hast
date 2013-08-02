@@ -33,8 +33,9 @@ Meteor.startup ->
       @timerSaveInterval = 1800
       @timerRefreshInterval= 300
       @windowActive = false
-      @normalFitRatio = 4
-      @fullScreenFitRatio = 6.5
+      @normalFitRatio = 5
+      @fullScreenFitRatio = 7.5
+      @fittextOptions = {maxFontSize: '55px'}
 
     setEditor: ->
       @editor = ace.edit('editor')
@@ -150,12 +151,12 @@ Meteor.startup ->
       Session.whenTrue 'isInFullScreen',
         =>
           $('.full-screen-related').addClass('inFullScreen')
-          $("#deck-container").fitText(@fullScreenFitRatio)
+          $("#deck-container").fitText(@fullScreenFitRatio, @fittextOptions)
         , true
       Session.whenFalse 'isInFullScreen',
         =>
           $('.full-screen-related').removeClass('inFullScreen')
-          $("#deck-container").fitText(@normalFitRatio)
+          $("#deck-container").fitText(@normalFitRatio, @fittextOptions)
         , true
 
       $(document).keydown (e) ->
@@ -243,7 +244,7 @@ Meteor.startup ->
       Prism.highlightAll()
       $.deck ".slide"
       $.deck "go", @currentSlide
-      $("#deck-container").fitText(@normalFitRatio)
+      $("#deck-container").fitText(@normalFitRatio, @fittextOptions)
 
 
     refreshCurrentDeck: ->
