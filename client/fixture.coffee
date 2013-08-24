@@ -47,6 +47,8 @@ Broadcast to your audience
 
 Guess you love Maths
 ------------
+* Inline math $S = \\sum_{i=1}^nx_i$.
+
 * The probability of getting k heads when flipping n coins is
 
 $$P(E)   = {n \\choose k} p^k (1-p)^{ n-k} $$

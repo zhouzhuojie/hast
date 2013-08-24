@@ -226,9 +226,9 @@ Meteor.startup ->
 
     # Resolve MathJax and Markdown conflicts
     escapeTex : (text) ->
-      re = /(\n|\r\n|\r)*(\${1,2})((?:\\.|[^$])*)\2(\n|\r\n|\r)*/g
-      out = text.replace re, (m, c1, c2, c3, c4) ->
-        c3 = c3.replace(/_/g, "\\_")
+      re = /(\${1,2})((?:\\.|[^$])*)\1*/g
+      out = text.replace re, (m, c1, c2) ->
+        c2 = c2.replace(/_/g, "\\_")
           .replace(/</g, "&lt;")
           .replace(/\|/g, "\\vert ")
           .replace(/\[/g, "\\lbrack ")
@@ -236,9 +236,7 @@ Meteor.startup ->
           .replace(/\\{/g, "\\lbrace ")
           .replace(/\\}/g, "\\rbrace ")
           .replace(/\\\\/g, "\\\\\\\\")
-        start = (if (c2 is "$") then c2 else "\n\n" + c2)
-        end = (if (c2 is "$") then c2 else c2 + "\n\n")
-        start + c3 + end
+        c1 + c2 + c1
       return out
 
     refreshDeck: ->
