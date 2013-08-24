@@ -1,9 +1,3 @@
-EventHorizon.fireWhenTrue 'loggedIn', ->
-  return Meteor.userId()?
-
-EventHorizon.on 'loggedIn', ->
-  location.reload()
-
 Deps.autorun ->
   Meteor.subscribe "hast", Session.get("hastId")
 
@@ -13,6 +7,8 @@ Template.Hast.mode = ->
 Meteor.startup ->
   class Panel
     constructor: ->
+      @cache = kizzy 'local-hast'
+      @cacheExpire = 1000*3600*48 # expires after 2 days
       @markedOptions =
         gfm: true,
         tables: true,
@@ -33,8 +29,12 @@ Meteor.startup ->
       @timerSaveInterval = 1800
       @timerRefreshInterval= 300
       @windowActive = false
-      @normalFitRatio = 5
-      @fullScreenFitRatio = 7.5
+      @normalFitRatio =
+        lineRatio: 1.8
+        fontRatio: 40
+      @fullScreenFitRatio =
+        lineRatio: 1.6
+        fontRatio: 65
       @fittextOptions = {maxFontSize: '55px'}
 
     setEditor: ->
@@ -92,7 +92,7 @@ Meteor.startup ->
     saveData: ->
       if @editor.getReadOnly() is false
         if Session.get('isDemoMode')
-          localStorage.setItem 'demoContent', @editor.getValue()
+          @cache.set 'demoContent', @editor.getValue(), @cacheExpire
           @flashMessage "Saved in local"
         else
           Files.update Session.get("hastId"), $set:
@@ -148,16 +148,13 @@ Meteor.startup ->
       return
 
     setFullScreenHandler: ->
-      Session.whenTrue 'isInFullScreen',
-        =>
+      Deps.autorun =>
+        if Session.equals 'isInFullScreen', true
           $('.full-screen-related').addClass('inFullScreen')
-          $("#deck-container").fitText(@fullScreenFitRatio, @fittextOptions)
-        , true
-      Session.whenFalse 'isInFullScreen',
-        =>
+          $("#deck-container").flowtype(@fullScreenFitRatio)
+        if Session.equals 'isInFullScreen', false
           $('.full-screen-related').removeClass('inFullScreen')
-          $("#deck-container").fitText(@normalFitRatio, @fittextOptions)
-        , true
+          $("#deck-container").flowtype(@normalFitRatio)
 
       $(document).keydown (e) ->
         if e.keyCode is 27
@@ -176,7 +173,7 @@ Meteor.startup ->
     setTheme: ->
       if @theme?
         if Session.get('isDemoMode') is true
-          localStorage.setItem 'theme', @theme
+          @cache.set 'theme', @theme, @cacheExpire
         else
           if @isOwner is true
             Files.update Session.get("hastId"), $set:
@@ -185,7 +182,7 @@ Meteor.startup ->
     setTransition: ->
       if @transition?
         if Session.get('isDemoMode') is true
-          localStorage.setItem 'transition', @transition
+          @cache.set 'transition', @transition, @cacheExpire
         else
           if @isOwner is true
             Files.update Session.get("hastId"), $set:
@@ -227,9 +224,25 @@ Meteor.startup ->
       window.blur =>
         @windowActive = false
 
+    # Resolve MathJax and Markdown conflicts
+    escapeTex : (text) ->
+      re = /(\n|\r\n|\r)*(\${1,2})((?:\\.|[^$])*)\2(\n|\r\n|\r)*/g
+      out = text.replace re, (m, c1, c2, c3, c4) ->
+        c3 = c3.replace(/_/g, "\\_")
+          .replace(/</g, "&lt;")
+          .replace(/\|/g, "\\vert ")
+          .replace(/\[/g, "\\lbrack ")
+          .replace(/\*/g, '\\ast ')
+          .replace(/\\{/g, "\\lbrace ")
+          .replace(/\\}/g, "\\rbrace ")
+          .replace(/\\\\/g, "\\\\\\\\")
+        start = (if (c2 is "$") then c2 else "\n\n" + c2)
+        end = (if (c2 is "$") then c2 else c2 + "\n\n")
+        start + c3 + end
+      return out
+
     refreshDeck: ->
-      slidesMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\") \
-        .split(@pageDivider)
+      slidesMd = @escapeTex(@editor.getValue()).split(@pageDivider)
       getSlidesHtmls = (Mds, c) ->
         _.reduce _.map(Mds, (slide, index) ->
           if index is 0
@@ -244,14 +257,11 @@ Meteor.startup ->
       Prism.highlightAll()
       $.deck ".slide"
       $.deck "go", @currentSlide
-      $("#deck-container").fitText(@normalFitRatio, @fittextOptions)
-
 
     refreshCurrentDeck: ->
       if @editor.getReadOnly() is false
         @flashMessage('Saving...')
-      slideMd = @editor.getValue().replace(/\\\\/g, "\\\\\\\\") \
-        .split(@pageDivider)[@currentSlide]
+      slideMd = @escapeTex @editor.getValue().split(@pageDivider)[@currentSlide]
       $.deck('getSlide', @currentSlide).html(@converter(slideMd))
       Prism.highlightAll()
       @refreshMathJax("deck-current")
@@ -296,11 +306,11 @@ Meteor.startup ->
         $('.sync-deck-btn').addClass('no-display')
         $('.save-btn').removeClass('no-display')
         @editor?.setValue(
-          localStorage.getItem('demoContent') or demoContent or "loading..."
+          @cache.get('demoContent') or demoContent or "loading..."
           -1
         )
-        @theme = localStorage.getItem 'theme'
-        @transition = localStorage.getItem 'transition'
+        @theme = @cache.get 'theme'
+        @transition = @cache.get 'transition'
         dataDeferred.resolve()
       else
         $('.sync-deck-btn').removeClass('no-display')

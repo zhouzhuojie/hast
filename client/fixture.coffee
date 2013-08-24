@@ -54,8 +54,7 @@ $$P(E)   = {n \\choose k} p^k (1-p)^{ n-k} $$
 * A Rogers-Ramanujan Identity
 
 $$1 +  \\frac{q^2}{(1-q)}+\\frac{q^6}{(1-q)(1-q^2)}+\\cdots =
-\\prod_{j=0}^{\\infty}\\frac{1}{(1-q^{5j+2})(1-q^{5j+3})},
-\\quad\\quad \\text{for $|q|&lt;1$}. $$
+\\prod_{j=0}^{\\infty}\\frac{1}{(1-q^{5j+2})(1-q^{5j+3})} $$
 
 * A Rogers-Ramanujan Identity
 

@@ -2,14 +2,7 @@
   "packages": {
     "router": {},
     "moment": {},
-    "flatstrap": {
-      "git": "https://github.com/fraherm/flatstrap.git"
-    },
-    "font-awesome": {
-      "git": "https://github.com/nate-strauser/meteor-font-awesome.git"
-    },
-    "accounts-ui-bootstrap-dropdown": "0.1.3",
-    "session-extras": {},
-    "event-horizon": {}
+    "flatstrap": {},
+    "accounts-ui-bootstrap-dropdown": {}
   }
 }
