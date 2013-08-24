@@ -126,9 +126,11 @@ Meteor.startup ->
           @refreshDeck()
           @refreshMathJax("deck-container")
 
-      @editor.getSelection().on "changeCursor", =>
-        targetSlide = @getPageNumFromEditor()
-        $.deck "go", targetSlide
+      @editor.getSelection().on "changeCursor", _.debounce(
+        =>
+          targetSlide = @getPageNumFromEditor()
+          $.deck "go", targetSlide
+        , 300)
 
     init: ->
       @setEditor()
