@@ -31,10 +31,10 @@ Meteor.startup ->
       @windowActive = false
       @normalFitRatio =
         lineRatio: 1.8
-        fontRatio: 40
+        fontRatio: 50
       @fullScreenFitRatio =
         lineRatio: 1.6
-        fontRatio: 65
+        fontRatio: 75
       @fittextOptions = {maxFontSize: '55px'}
 
     setEditor: ->

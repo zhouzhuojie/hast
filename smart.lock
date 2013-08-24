@@ -5,7 +5,6 @@
       "router": {},
       "moment": {},
       "flatstrap": {},
-      "font-awesome": {},
       "accounts-ui-bootstrap-dropdown": {}
     },
     "packages": {
@@ -23,11 +22,6 @@
         "git": "https://github.com/fraherm/flatstrap.git",
         "tag": "v1.0.0",
         "commit": "f6f79e940524bdd1aa379fd708d8eda0f83dc557"
-      },
-      "font-awesome": {
-        "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
-        "tag": "v3.2.1",
-        "commit": "38bdfff72dfb8857b272f9a9b056045d6a015489"
       },
       "accounts-ui-bootstrap-dropdown": {
         "git": "https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown.git",
