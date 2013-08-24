@@ -17,7 +17,7 @@ How it works
 Introduction
 ---------------------
 
-Hast.me is a WYSISYG markdown flavor presentation tool made for everyone! We love markdown, did I mention [it](http://daringfireball.net/projects/markdown/)? It uses [github style markdown](https://help.github.com/articles/github-flavored-markdown).
+Hast.me is a WYSIWYG markdown flavor presentation tool made for everyone! We love markdown, did I mention [it](http://daringfireball.net/projects/markdown/)? It uses [github style markdown](https://help.github.com/articles/github-flavored-markdown).
 
 
 > ##### Big Thanks to these great open source projects: 
