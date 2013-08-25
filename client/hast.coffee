@@ -116,7 +116,7 @@ Meteor.startup ->
             currentSlide: @currentSlide
 
     handleEditorChange: ->
-      @editor.getSession().getDocument().on "change", (data)=>
+      @editor.getSession().getDocument().on "change", =>
         @setTimerClear()
         @setTimerRefresh =>
           @refreshCurrentDeck()
@@ -346,6 +346,10 @@ Template.Hast.rendered = ->
   window.panel = window.SingletonPanel?.get()
 
 Template.Hast.events
+  "click .deck-prev-link": ->
+    $.deck('prev')
+  "click .deck-next-link": ->
+    $.deck('next')
   "click .save-btn": ->
     panel = window.panel
     if Meteor.user()

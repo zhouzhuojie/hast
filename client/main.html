@@ -21,11 +21,13 @@
     </a>
     <ul class="nav">
       <li>
-      <a href="{{homePath}}">New</a>
+      <a href="{{homePath}}">Home</a>
       </li>
+      {{#if currentUser}}
       <li>
       <a href="{{archivesPath}}">Archives</a>
       </li>
+      {{/if}}
       <li>{{loginButtons}}</li>
     </ul>
     <ul class="nav pull-right messages">
@@ -49,7 +51,10 @@
 {{> header}}
 <div class="new-hast-box row-fluid mode-isDemoMode-{{mode}}">
   <div class="deck-box span8">
-    <div class="deck-container full-screen-related" id="deck-container">
+    <div class="deck-container full-screen-related" id="deck-container"></div>
+    <div class="deck-navigate full-screen-related">
+      <span class="deck-prev-link" title="Previous">&#8592;</span>
+      <span class="deck-next-link pull-right" title="Next">&#8594;</span>
     </div>
   </div>
   <div class="editor-box span4 full-screen-related  visible-desktop">
