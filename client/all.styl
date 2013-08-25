@@ -2,133 +2,102 @@ html, body
     height 100%
     padding 0
     margin 0
-
-.csstransforms .slide h1
-    position static
+    background-color #ecf0f1
 
 .navbar
     margin-bottom 0
-
-.navbar-inner.customized
-    padding 0 2em 0 2em
-
-.nav.messages
-    margin-top 0.7em
-
-.message-notice-wrapper
-    margin-right 1em
-
-#message-notice
-    display none
+    .navbar-inner.customized
+        padding 0 2em 0 2em
+    .nav.messages
+        margin-top 0.7em
+    .message-notice-wrapper
+        margin-right 1em
+    #message-notice
+        display none
+    &.inFullScreen
+        display none
 
 .new-hast-box
     position absolute
-    top 42px
+    top 44px
     bottom 0
     overflow-y hidden
+    background-color #ffffff
+    .deck-box
+        height 100%
+        padding-top 1em
+        padding-bottom 1.5em
+        .csstransforms .slide h1
+            position static
+        .deck-container
+            margin-left 1.3em
+            min-height 95%
+            max-height 95%
+            overflow-y hidden
+            .slide h1
+                position relative !important
+                line-height 1em !important
+                margin-top 1.5em !important
+            .slide img
+                width auto !important
+            &.inFullScreen
+                position  fixed
+                top       0
+                right     0
+                left      0
+                width     auto
+                height    auto
+                min-height 100%
+                max-height 100%
+                overflow-y auto
+                z-index   2000
+                margin 0 auto
+                padding 0
+                .slide
+                    padding 0 10% !important
 
-.deck-box
-    height 100%
-    padding-top 1em
-    padding-bottom 1.5em
+    .editor-box
+        height 100%
+        background-color #DCDCDC
+        .editor-header
+            text-align center
+        #editor
+            height 100%
+        &.inFullScreen
+            visibility hidden
 
-.deck-container
-    margin-left 1.3em
-    min-height 95%
-    max-height 95%
-    overflow-y hidden
-
-.editor-box
-    height 93%
-    background-color #DCDCDC
-
-.editor-header
-    text-align center
-
-#editor
-    height 100%
-
-.deck-container .slide h1
-    position relative !important
-    line-height 1em !important
-    margin-top 1.5em !important
-
-.deck-container .slide img
-    width auto !important
-
-.deck-container.inFullScreen
-    position  fixed
-    top       0
-    right     0
-    left      0
-    width     auto
-    height    auto
-    min-height 100%
-    max-height 100%
-    overflow-y auto
-    z-index   2000
-    margin 0 auto
-    padding 0
-
-.deck-container.inFullScreen .slide
-    padding 0 10% !important
-
-.editor-box.inFullScreen
-    visibility hidden
-
-.navbar.inFullScreen
-    display none
-
-.full-screen-btn-group
-    position absolute
-    bottom 1.5em
-    left 1.75em
-    margin auto
-    font-size 1em
-
-.fade-btn
-    display none
-    z-index 3000
-
-.save-btn.no-display
-    display none
-
-.sync-deck-btn.no-display
-    display none
-
-.exit-full-screen-area
-    position absolute
-    left 0
-    bottom 0
-    width 30em
-    height 15em
-    z-index 2001
-
-.exit-full-screen-area.inFullScreen
-    display block
-
-.exit-full-screen-area.inFullScreen .fade-btn
-    display inline-block
-    opacity 0.05
-
-.exit-full-screen-area.inFullScreen .save-btn
-    display none
-
-.exit-full-screen-area.inFullScreen .theme-btn
-    display none
-
-.exit-full-screen-area.inFullScreen .transition-btn
-    display none
-
-.exit-full-screen-area.inFullScreen .full-screen-btn
-    display none
-
-.exit-full-screen-area.inFullScreen .sync-deck-btn
-    display inline-block
-
-.exit-full-screen-area.inFullScreen:hover .fade-btn
-    display inline-block
-    opacity 1
+    .exit-full-screen-area
+        position absolute
+        left 0
+        bottom 0
+        width 30em
+        height 15em
+        z-index 2001
+        .full-screen-btn-group
+            position absolute
+            bottom 1.5em
+            left 1.75em
+            margin auto
+            font-size 1em
+            .fade-btn
+                display none
+                z-index 3000
+            .save-btn.no-display
+                display none
+            .sync-deck-btn.no-display
+                display none
+        &.inFullScreen
+            display block
+            .fade-btn
+                display inline-block
+                opacity 0.05
+            .save-btn, .theme-btn, .transition-btn, .full-screen-btn
+                display none
+            .sync-deck-btn
+                display inline-block
+            &:hover .fade-btn
+                display inline-block
+                opacity 1
 
 .archives-box
     min-width 500px
@@ -136,9 +105,12 @@ html, body
     margin-top 2em
     margin-left 4em
     margin-right 4em
-
-.btn-block
-    margin-top 1em
+    .alert-block
+        background-color #ffffff
+        box-shadow 1px 1px 1px #bdc3c7
+        .btn-block
+            margin-top 1em
+            background-color #e67e22
 
 .page-404
     margin-top 5em
