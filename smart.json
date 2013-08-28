@@ -3,7 +3,6 @@
     "router": {},
     "moment": {},
     "flatstrap": {},
-    "accounts-ui-bootstrap-dropdown": {},
-    "npm": {}
+    "accounts-ui-bootstrap-dropdown": {}
   }
 }

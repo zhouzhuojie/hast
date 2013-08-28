@@ -146,9 +146,27 @@
     <p>{{timeFromNow submitted}}</p>
   </div>
   {{/each}}
+  <div id="shorturl-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <p>Short URL</p>
+    </div>
+    <div class="modal-body">
+      <p>Enter a name that you will remember:<br/></p>
+      <div class="input-prepend">
+        <span class="add-on">hast.me/s/</span>
+        <input class="span2" id="shortUrlInput" type="text" placeholder="myHast" />
+        <div class="alert shortUrlInputMsg"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary submit-shorturl-btn">Save changes</button>
+    </div>
+  </div>
 </div>
 {{else}}
 {{/if}}
+
 </template>
 
 <template name="setup"></template>

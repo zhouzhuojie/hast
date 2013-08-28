@@ -26,4 +26,15 @@ Template.oldHast.events
         Files.remove hastId
   'click .getShortUrl-btn': (event) ->
     hastId = event.target.attributes['data-hastId'].value
-    Meteor.call 'getShortUrl', hastId
+    $('#shorturl-modal').modal()
+    $('.submit-shorturl-btn').attr('data-hastId', hastId)
+    $('#shortUrlInput').keyup ->
+      if /^[0-9a-zA-Z_.\-]+$/.test @value
+        $('.submit-shorturl-btn').show()
+        $('.shortUrlInputMsg').hide()
+      else
+        $('.submit-shorturl-btn').hide()
+        $('.shortUrlInputMsg').html('Please input numbers or characters.').show()
+  'click .submit-shorturl-btn': (event) ->
+    hastId = event.target.attributes['data-hastId'].value
+    Meteor.call 'getShortUrl', hastId, $('#shortUrlInput').val()
