@@ -30,11 +30,11 @@ Meteor.startup ->
       @timerRefreshInterval= 300
       @windowActive = false
       @normalFitRatio =
-        lineRatio: 1.3
+        lineRatio: 1.6
         fontRatio: 50
       @fullScreenFitRatio =
-        lineRatio: 1.2
-        fontRatio: 75
+        lineRatio: 1.5
+        fontRatio: 80
       @fittextOptions = {maxFontSize: '55px'}
 
     setEditor: ->
@@ -130,7 +130,7 @@ Meteor.startup ->
         =>
           targetSlide = @getPageNumFromEditor()
           $.deck "go", targetSlide
-        , 300)
+        , 100)
 
     init: ->
       @setEditor()
