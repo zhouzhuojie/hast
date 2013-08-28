@@ -24,3 +24,7 @@ Template.oldHast.events
     bootbox.confirm "Are you sure to delete?", (result) ->
       if result is true
         Files.remove hastId
+  'click .getShortUrl-btn': (event) ->
+    hastId = event.target.attributes['data-hastId'].value
+    bootbox.confirm "Are you sure to shortUrl?", (result) ->
+      console.log hastId

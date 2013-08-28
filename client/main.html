@@ -133,7 +133,16 @@
     <h4>
       <a href="{{hastIdRoutePath _id}}">{{title}}</a>
     </h4>
-    <p> <a href="{{hastIdRoutePath _id}}">http://hast.me{{hastIdRoutePath _id}}</a><br/></p>
+    <p>
+      {{#if shortUrl}}
+      <a href="http://{{shortUrl}}">{{shortUrl}}</a><br/>
+      {{else}}
+      <a href="{{hastIdRoutePath _id}}">http://hast.me{{hastIdRoutePath _id}}</a><br/>
+      <span class="label getShortUrl-btn" data-hastId="{{_id}}">get shortUrl</span>
+      {{/if}}
+      <span class="label copy-btn">copy url</span>
+      <br/>
+    </p>
     <p>{{timeFromNow submitted}}</p>
   </div>
   {{/each}}
