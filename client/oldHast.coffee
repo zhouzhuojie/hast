@@ -26,5 +26,4 @@ Template.oldHast.events
         Files.remove hastId
   'click .getShortUrl-btn': (event) ->
     hastId = event.target.attributes['data-hastId'].value
-    bootbox.confirm "Are you sure to shortUrl?", (result) ->
-      console.log hastId
+    Meteor.call 'getShortUrl', hastId

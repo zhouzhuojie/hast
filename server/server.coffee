@@ -1,3 +1,6 @@
+Bitly = Meteor.require 'bitly'
+bitly = new Bitly 'zhouzhuojie', 'R_21987eada219755a5e42fe295f639814'
+
 Meteor.publish "hast", (hastId) ->
   check hastId, String
 
@@ -76,3 +79,21 @@ Meteor.methods
         type: if isPublic then 'public' else 'private'
     message: "Hast Updated!"
     fileId: hastId
+
+  getShortUrl: (hastId) ->
+    check hastId, String
+    user = Meteor.user()
+    unless user
+      throw new Meteor.Error(401, "You need to login to post new stories")
+    file = Files.findOne(hastId)
+    unless file.userId is user._id
+      throw new Meteor.Error(402, "You need to own this hast")
+    Meteor.sync ->
+      bitly.shorten "http://128.164.81.133/hast/#{hastId}", (err, response) ->
+        if err
+          throw new Meteor.Error 401, err
+        else
+          Files.update hastId,
+            $set:
+              shortUrl: response.data.url
+    return
