@@ -5,6 +5,13 @@ Template.Hast.mode = ->
   Session.get 'isDemoMode'
 
 Meteor.startup ->
+  window.flashMessage =  (message, time=3000) ->
+    $("#message-notice")
+      .stop(true, true)
+      .html(message)
+      .show()
+      .fadeOut(time)
+
   class Panel
     constructor: ->
       @cache = kizzy 'local-hast'
@@ -93,12 +100,12 @@ Meteor.startup ->
       if @editor.getReadOnly() is false
         if Session.get('isDemoMode')
           @cache.set 'demoContent', @editor.getValue(), @cacheExpire
-          @flashMessage "Saved in local"
+          flashMessage "Saved in local"
         else
           Files.update Session.get("hastId"), $set:
             content: @editor.getValue()
             title: @getTitle()
-          @flashMessage "Saved in server"
+          flashMessage "Saved in server"
 
     handleDeckChange: ->
       $(document).off "deck.change"
@@ -135,10 +142,10 @@ Meteor.startup ->
     init: ->
       @setEditor()
       @setFullScreenHandler()
-      @flashMessage('Loading...', 10000)
+      flashMessage('Loading...', 10000)
       setData = @setData()
       setData.done =>
-        @flashMessage('Loaded', 1000)
+        flashMessage('Loaded', 1000)
         @refreshDeck()
         @handleEditorChange()
         @handleDeckChange()
@@ -213,12 +220,6 @@ Meteor.startup ->
     refreshMathJax: (elementId) ->
       MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
 
-    flashMessage: (message, time=3000) ->
-      $("#message-notice")
-        .stop(true, true)
-        .html(message)
-        .show()
-        .fadeOut(time)
 
     setPanelActiveListener: ->
       window.focus =>
@@ -260,7 +261,7 @@ Meteor.startup ->
 
     refreshCurrentDeck: ->
       if @editor.getReadOnly() is false
-        @flashMessage('Saving...')
+        flashMessage('Saving...')
       slideMd = @escapeTex @editor.getValue().split(@pageDivider)[@currentSlide]
       $.deck('getSlide', @currentSlide).html(@converter(slideMd))
       Prism.highlightAll()
@@ -358,7 +359,7 @@ Template.Hast.events
         title: panel.getTitle()
         content: panel.editor.getValue()
         (error, result) ->
-          panel.flashMessage result.message
+          flashMessage result.message
           Meteor.Router.to "/hast/" + result.fileId
           panel.setData()
           bootbox.alert "
@@ -367,7 +368,7 @@ Template.Hast.events
           "
       )
     else
-      panel.flashMessage "Oops, please log in to save.", 6000
+      flashMessage "Oops, please log in to save.", 6000
 
   "click .mathjax-btn": ->
     window.panel.refreshMathJax 'deck-container'

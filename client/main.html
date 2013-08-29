@@ -135,13 +135,11 @@
     </h4>
     <p>
       {{#if shortUrl}}
-      <a href="http://{{shortUrl}}">{{shortUrl}}</a><br/>
+      <span class="shortUrlLink">{{shortUrl}}</span>
       {{else}}
-      <a href="{{hastIdRoutePath _id}}">http://hast.me{{hastIdRoutePath _id}}</a><br/>
-      <span class="label getShortUrl-btn" data-hastId="{{_id}}">get shortUrl</span>
+      <span class="shortUrlLink">hast.me{{hastIdRoutePath _id}}</span>
+      <span class="label label-info getShortUrl-btn" data-hastId="{{_id}}">get shortUrl</span>
       {{/if}}
-      <span class="label copy-btn">copy url</span>
-      <br/>
     </p>
     <p>{{timeFromNow submitted}}</p>
   </div>
@@ -155,8 +153,8 @@
       <div class="input-prepend">
         <span class="add-on">hast.me/s/</span>
         <input class="span2" id="shortUrlInput" type="text" placeholder="myHast" />
-        <div class="alert shortUrlInputMsg"></div>
       </div>
+      <div class="alert shortUrlInputMsg"></div>
     </div>
     <div class="modal-footer">
       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

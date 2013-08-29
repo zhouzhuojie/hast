@@ -1,3 +1,13 @@
+Url = new Meteor.Collection("url")
+
+Meteor.Router.add '/s/:shortUrlName', (shortUrlName) ->
+  u = Url.findOne shortUrlName
+  if u
+    hastId = u.hastId
+    @response.writeHead '302', {'Location': "/hast/#{hastId}"}
+  else
+    @response.writeHead '302', {'Location': "/404"}
+
 Meteor.publish "hast", (hastId) ->
   check hastId, String
 
@@ -25,6 +35,7 @@ Meteor.publish "oldHast", ->
       type: 1
       userId: 1
       currentSlide: 1
+      shortUrl: 1
 
 Meteor.methods
   demoContent: () ->
@@ -83,8 +94,16 @@ Meteor.methods
     user = Meteor.user()
     unless user
       throw new Meteor.Error(401, "You need to login to post new stories")
-    file = Files.findOne(hastId)
-    #Files.update hastId,
-      #$set:
-        #shortUrl: response.data.url
-    return
+    u = Url.findOne shortUrlName
+    if u
+      throw new Meteor.Error(401, "The name has been taken")
+    else
+      Url.insert
+        _id: shortUrlName
+        hastId: hastId
+      file = Files.findOne hastId
+      Files.update hastId,
+        $set:
+          shortUrl: "hast.me/s/#{shortUrlName}"
+    message: "ShortUrl Updated!"
+    fileId: hastId
