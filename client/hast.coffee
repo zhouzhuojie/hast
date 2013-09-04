@@ -38,11 +38,10 @@ Meteor.startup ->
       @windowActive = false
       @normalFitRatio =
         lineRatio: 1.6
-        fontRatio: 50
+        fontRatio: 60
       @fullScreenFitRatio =
         lineRatio: 1.5
-        fontRatio: 80
-      @fittextOptions = {maxFontSize: '55px'}
+        fontRatio: 90
 
     setEditor: ->
       @editor = ace.edit('editor')
