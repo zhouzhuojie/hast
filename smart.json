@@ -2,7 +2,6 @@
   "packages": {
     "router": {},
     "moment": {},
-    "flatstrap": {},
-    "accounts-ui-bootstrap-dropdown": {}
+    "flatstrap": {}
   }
 }

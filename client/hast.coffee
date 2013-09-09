@@ -276,6 +276,7 @@ Meteor.startup ->
             if fields.content?
               if @editor.isFocused() is false or @isOwner is false
                 @editor.setValue fields.content, -1
+                $.deck("go", @currentSlide)
             if @isSyncDeck is true and fields.currentSlide?
               $.deck("go", fields.currentSlide)
             if @isSyncDeck is true and fields.theme?

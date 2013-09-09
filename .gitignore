@@ -1,5 +1,4 @@
 .meteor/local
-packages
 .demeteorized
 deploy.sh
 server/config.coffee
