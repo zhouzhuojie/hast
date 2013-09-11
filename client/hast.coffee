@@ -37,10 +37,10 @@ Meteor.startup ->
       @timerRefreshInterval= 300
       @windowActive = false
       @normalFitRatio =
-        lineRatio: 1.6
+        lineRatio: 1.8
         fontRatio: 60
       @fullScreenFitRatio =
-        lineRatio: 1.5
+        lineRatio: 1.7
         fontRatio: 90
 
     setEditor: ->
