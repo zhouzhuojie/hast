@@ -10,7 +10,7 @@ Presentation On the Fly
 How it works
 -------------------
 
-<iframe src="http://www.screenr.com/embed/oThH" width="800" height="500" frameborder="0"></iframe>
+<iframe width="800" height="500" src="//www.youtube.com/embed/PuqrOCtjVcI?version=3&vq=hd720" frameborder="0" allowfullscreen></iframe>
 
 //// <!-- Page Divider -->
 
