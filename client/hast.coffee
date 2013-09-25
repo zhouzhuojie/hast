@@ -206,7 +206,9 @@ Meteor.startup ->
           "MathJax.Hub.Config({" +
           "  tex2jax: { inlineMath: [['$','$'], ['\\\\(','\\\\)']] }," +
           "  processEscapes: true," +
-          "  showProcessingMessages: false" +
+          "  processEnvironments: true," +
+          "  showProcessingMessages: false, " +
+          "  'HTML-CSS': {styles: {'.MathJax_Display': {'margin': 0}}}" +
           "});"
         head.appendChild script
         script = document.createElement("script")
@@ -226,23 +228,10 @@ Meteor.startup ->
       window.blur =>
         @windowActive = false
 
-    # Resolve MathJax and Markdown conflicts
-    escapeTex : (text) ->
-      re = /(\${1,2})((?:\\.|[^$])*)\1*/g
-      out = text.replace re, (m, c1, c2) ->
-        c2 = c2.replace(/_/g, "\\_")
-          .replace(/</g, "&lt;")
-          .replace(/\|/g, "\\vert ")
-          .replace(/\[/g, "\\lbrack ")
-          .replace(/\*/g, '\\ast ')
-          .replace(/\\{/g, "\\lbrace ")
-          .replace(/\\}/g, "\\rbrace ")
-          .replace(/\\\\/g, "\\\\\\\\")
-        c1 + c2 + c1
-      return out
-
     refreshDeck: ->
-      slidesMd = @escapeTex(@editor.getValue()).split(@pageDivider)
+      processedText = Mathjaxutils?.remove_math(@editor.getValue())
+      slidesMd = processedText[0].split(@pageDivider)
+      maths = processedText[1]
       getSlidesHtmls = (Mds, c) ->
         _.reduce _.map(Mds, (slide, index) ->
           if index is 0
@@ -252,7 +241,11 @@ Meteor.startup ->
           else
             "<section class=\"slide\">#{c(slide)}</section>"
         ), (a, b) -> (a + b)
-      $("#deck-container").html getSlidesHtmls(slidesMd, @converter)
+      renderedHtml = Mathjaxutils?.replace_math(
+        getSlidesHtmls(slidesMd, @converter)
+      , maths
+      )
+      $("#deck-container").html renderedHtml
       $("#deck-container").find('a').attr('target', '_blank')
       Prism.highlightAll()
       $.deck ".slide"
@@ -261,8 +254,14 @@ Meteor.startup ->
     refreshCurrentDeck: ->
       if @editor.getReadOnly() is false
         flashMessage('Saving...')
-      slideMd = @escapeTex @editor.getValue().split(@pageDivider)[@currentSlide]
-      $.deck('getSlide', @currentSlide).html(@converter(slideMd))
+      processedText = Mathjaxutils?.remove_math(
+        (@editor.getValue()).split(@pageDivider)[@currentSlide]
+      )
+      slideMd = processedText[0]
+      maths = processedText[1]
+      $.deck('getSlide', @currentSlide).html(
+        Mathjaxutils?.replace_math(@converter(slideMd), maths)
+      )
       Prism.highlightAll()
       @refreshMathJax("deck-current")
 
