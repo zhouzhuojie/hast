@@ -33,8 +33,8 @@ Meteor.startup ->
       @timeSave = undefined
       @timeRefresh = undefined
       @pageDivider = /\/{4,}/
-      @timerSaveInterval = 1800
-      @timerRefreshInterval= 300
+      @timerSaveInterval = 3000
+      @timerRefreshInterval= 600
       @windowActive = false
       @normalFitRatio =
         lineRatio: 1.8
@@ -269,6 +269,7 @@ Meteor.startup ->
       unless @isOwner
         @editor.setReadOnly true
         $('.editor-header-message').html('(Read Only)')
+        Session.set "isInFullScreen", true
       Files.find(Session.get('hastId')).observeChanges
         changed: _.debounce(
           (id, fields) =>
