@@ -272,6 +272,7 @@ Meteor.startup ->
       unless @isOwner
         @editor.setReadOnly true
         $('.editor-header-message').html('(Read Only)')
+        Session.set "isInFullScreen", true
       Files.find(Session.get('hastId')).observeChanges
         changed: _.debounce(
           (id, fields) =>
