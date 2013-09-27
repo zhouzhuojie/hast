@@ -36,8 +36,8 @@ Meteor.startup ->
       @timeSave = undefined
       @timeRefresh = undefined
       @pageDivider = /\/{4,}/
-      @timerSaveInterval = 1800
-      @timerRefreshInterval= 300
+      @timerSaveInterval = 3000
+      @timerRefreshInterval= 600
       @windowActive = false
       @normalFitRatio =
         lineRatio: 1.8
