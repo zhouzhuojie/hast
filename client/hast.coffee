@@ -4,6 +4,9 @@ Deps.autorun ->
 Template.Hast.mode = ->
   Session.get 'isDemoMode'
 
+Handlebars.registerHelper '$or', (a, b) ->
+  return (a || b)
+
 Meteor.startup ->
   window.flashMessage =  (message, time=3000) ->
     $("#message-notice")
@@ -400,3 +403,9 @@ Template.Hast.events
     panel.transition = $(event.target).html().toLowerCase()
     panel.refreshTransition()
     panel.setTransition()
+
+  "click .phone-controll-btn-prev": ->
+    $.deck "prev"
+
+  "click .phone-controll-btn-next": ->
+    $.deck "next"

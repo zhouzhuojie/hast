@@ -4,7 +4,8 @@
     "basePackages": {
       "router": {},
       "moment": {},
-      "flatstrap": {}
+      "flatstrap": {},
+      "device-detection": {}
     },
     "packages": {
       "router": {
@@ -21,6 +22,11 @@
         "git": "https://github.com/fraherm/flatstrap.git",
         "tag": "v1.0.0",
         "commit": "f6f79e940524bdd1aa379fd708d8eda0f83dc557"
+      },
+      "device-detection": {
+        "git": "https://github.com/Mystor/meteor-device-detection.git",
+        "tag": "v0.1.4",
+        "commit": "9c8db3c2f7d7bd59b361697ab63f006c05aaf089"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

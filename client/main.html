@@ -3,7 +3,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Hast: live presentation</title>
   <meta name="description" content="Hast is a WYSIWYG markdown flavor presentation tool made for everyone! We love markdown, did I mention it? It uses github style markdown. It quickly does the real time broadcasting and hot pushing changes. Hast uses Meteor, DeckJS, aceEditor, etc.">
-  <meta name="viewport" content="width=device-width, initial-scale=0.9">
+  <meta name="viewport" content="width=device-width, initial-scale=0.7">
 
   <link id="theme-link" rel="stylesheet" type="text/css" href="/theme/hacky.css" />
   <link id="transition-link" rel="stylesheet" type="text/css" href="/transition/none.css" />
@@ -56,6 +56,16 @@
       <span class="deck-prev-link" title="Previous">&#8592;</span>
       <span class="deck-next-link pull-right" title="Next">&#8594;</span>
     </div>
+    {{#if $or isPhone isTablet}}
+    <div class="phone-controll full-screen-related">
+      <span class="phone-controll-span margless">
+        <span class="btn btn-block phone-controll-btn phone-controll-btn-prev">&#8592;</span>
+      </span>
+      <span class="phone-controll-span pull-right margless">
+        <span class="btn btn-block phone-controll-btn phone-controll-btn-next">&#8594;</span>
+      </span>
+    </div>
+    {{/if}}
   </div>
   <div class="editor-box span4 full-screen-related  visible-desktop">
     <div class="editor-header">

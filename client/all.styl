@@ -29,6 +29,31 @@ html, body
         padding-bottom 1.5em
         .csstransforms .slide h1
             position static
+        .phone-controll
+            .margless
+                margin 0 !important
+            z-index 3001
+            padding-left 1em
+            padding-right 1em
+            position relative
+            top -40%
+            display none
+            &.inFullScreen
+                display block
+                position fixed
+                top 55%
+                left 0
+                right 0
+            .phone-controll-span
+                width 49%
+                float left
+                &.pull-right
+                    float right
+            .phone-controll-btn
+                padding-top 25%
+                height 1.8em
+                font-size 100px
+                color gray
         .deck-navigate
             span:hover
                 cursor pointer
