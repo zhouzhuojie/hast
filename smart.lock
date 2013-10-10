@@ -13,11 +13,6 @@
         "tag": "v0.5.4.1",
         "commit": "d00e380dda2184b70e909fc4a0fb5358d602c586"
       },
-      "moment": {
-        "git": "https://github.com/acreeger/meteor-moment.git",
-        "tag": "v2.2.1",
-        "commit": "9ee12e714afe56b189f53076447b7b54f3012065"
-      },
       "flatstrap": {
         "git": "https://github.com/fraherm/flatstrap.git",
         "tag": "v1.0.0",
