@@ -10,7 +10,6 @@ accounts-password
 underscore
 flatstrap
 coffeescript
-appcache
 spiderable
 standard-app-packages
 accounts-ui-bootstrap-dropdown
