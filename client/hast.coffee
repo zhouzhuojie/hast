@@ -310,7 +310,7 @@ Meteor.startup ->
         $('.sync-deck-btn').addClass('no-display')
         $('.save-btn').removeClass('no-display')
         @editor?.setValue(
-          @cache.get('demoContent') or demoContent or "loading..."
+          @cache.get('demoContent') or demoContent
           -1
         )
         @theme = @cache.get 'theme'
@@ -321,7 +321,7 @@ Meteor.startup ->
         $('.save-btn').addClass('no-display')
         Meteor.call 'getHast', Session.get('hastId'), (err, file) =>
           if file?
-            @editor?.setValue file.content or "loading...", -1
+            @editor?.setValue file.content, -1
             @theme = file.theme
             @transition = file.transition
             @isOwner = if file.userId is Meteor.userId() then true else false
