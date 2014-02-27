@@ -3,6 +3,7 @@
     "router": {},
     "moment": {},
     "flatstrap": {},
-    "device-detection": {}
+    "device-detection": {},
+    "apm": {}
   }
 }

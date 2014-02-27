@@ -1,5 +1,10 @@
 Url = new Meteor.Collection("url")
 
+Meteor.startup ->
+  if _.has Meteor.settings, 'apmKey'
+    settings = Meteor.settings
+    Apm.connect settings.apmKey, settings.apmSecret
+
 Meteor.Router.add '/s/:shortUrlName', (shortUrlName) ->
   u = Url.findOne shortUrlName
   if u

@@ -5,7 +5,8 @@
       "router": {},
       "moment": {},
       "flatstrap": {},
-      "device-detection": {}
+      "device-detection": {},
+      "apm": {}
     },
     "packages": {
       "router": {
@@ -15,8 +16,8 @@
       },
       "moment": {
         "git": "https://github.com/acreeger/meteor-moment.git",
-        "tag": "v2.2.1",
-        "commit": "9ee12e714afe56b189f53076447b7b54f3012065"
+        "tag": "v2.5.1",
+        "commit": "8c9bc5d3fc96705057737cb9743d555417f6e551"
       },
       "flatstrap": {
         "git": "https://github.com/fraherm/flatstrap.git",
@@ -24,9 +25,14 @@
         "commit": "f6f79e940524bdd1aa379fd708d8eda0f83dc557"
       },
       "device-detection": {
-        "git": "https://github.com/Mystor/meteor-device-detection.git",
-        "tag": "v0.1.4",
-        "commit": "9c8db3c2f7d7bd59b361697ab63f006c05aaf089"
+        "git": "https://github.com/mystor/meteor-device-detection.git",
+        "tag": "v0.1.5",
+        "commit": "4c7c6972aa3568062bb03bc0cabbade8874ce836"
+      },
+      "apm": {
+        "git": "https://github.com/arunoda/meteor-apm-client.git",
+        "tag": "v0.2.8",
+        "commit": "fe6d434be4a34da547beb40323a3622ca203f311"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

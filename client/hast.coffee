@@ -139,7 +139,7 @@ Meteor.startup ->
         =>
           targetSlide = @getPageNumFromEditor()
           $.deck "go", targetSlide
-        , 100)
+        , 200)
 
     init: ->
       @setEditor()
@@ -149,12 +149,12 @@ Meteor.startup ->
       setData.done =>
         flashMessage('Loaded', 1000)
         @refreshDeck()
-        @handleEditorChange()
         @handleDeckChange()
         @setPageNum()
         @setMathJax()
         @refreshTheme()
         @refreshTransition()
+        @handleEditorChange()
       @setPanelActiveListener()
       return
 
@@ -364,7 +364,6 @@ Template.Hast.events
         (error, result) ->
           flashMessage result.message
           Meteor.Router.to "/hast/" + result.fileId
-          panel.setData()
           bootbox.alert "
             Congratulations! Your hast has been saved in the cloud.
             You can easily manage them in the archives.

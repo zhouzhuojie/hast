@@ -2,3 +2,4 @@
 .demeteorized
 deploy.sh
 server/config.coffee
+settings.json

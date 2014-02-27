@@ -17,7 +17,7 @@ $ npm install -g meteorite
 
 Clone the repo and run.
 ```bash
-$ git clone https://github.com/zhouzhuojie/hast.git
+$ git clone --recursive https://github.com/zhouzhuojie/hast.git
 $ cd hast
 $ mrt
 ```
