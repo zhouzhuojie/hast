@@ -1,9 +1,10 @@
 {
   "packages": {
-    "router": {},
     "moment": {},
     "flatstrap": {},
     "device-detection": {},
-    "apm": {}
+    "apm": {},
+    "iron-router": {},
+    "accounts-ui-bootstrap-dropdown": {}
   }
 }

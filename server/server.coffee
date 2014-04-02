@@ -5,13 +5,19 @@ Meteor.startup ->
     settings = Meteor.settings
     Apm.connect settings.apmKey, settings.apmSecret
 
-Meteor.Router.add '/s/:shortUrlName', (shortUrlName) ->
-  u = Url.findOne shortUrlName
-  if u
-    hastId = u.hastId
-    @response.writeHead '302', {'Location': "/hast/#{hastId}"}
-  else
-    @response.writeHead '302', {'Location': "/404"}
+Router.map ->
+  @route 'shortUrl', {
+    where: 'server',
+    path: '/s/:shortUrlName',
+    action: ->
+      shortUrlName = @params.shortUrlName
+      u = Url.findOne shortUrlName
+      if u
+        hastId = u.hastId
+        @response.writeHead '302', {'Location': "/hast/#{hastId}"}
+      else
+        @response.writeHead '302', {'Location': "/404"}
+  }
 
 Meteor.publish "hast", (hastId) ->
   check hastId, String

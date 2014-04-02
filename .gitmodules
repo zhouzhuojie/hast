@@ -1,3 +1,0 @@
-[submodule "packages/accounts-ui-bootstrap-dropdown"]
-	path = packages/accounts-ui-bootstrap-dropdown
-	url = git@github.com:zhouzhuojie/meteor-accounts-ui-bootstrap-dropdown.git

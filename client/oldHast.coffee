@@ -1,24 +1,13 @@
-Meteor.subscribe "oldHast"
-
-Template.oldHast.files = ->
-  Files.find(
-    {userId: Meteor.userId()}, {sort: {submitted: -1}})
-  .fetch()
-
-Template.oldHast.timeFromNow = (utc)->
-  moment(utc).fromNow()
-
-Template.oldHast.checkedStatus = (type)->
-  if type is 'public' then 'checked' else 'unchecked'
-
-Template.oldHast.rendered = ->
-  $('.switch')
-    .bootstrapSwitch()
-    .on 'switch-change', (e, data) ->
-      $el = $(data.el)
-      Meteor.call "updateType", $el.attr('data-hastId'), data.value
+Template.oldHast.helpers
+  timeFromNow: (utc)->
+    moment(utc).fromNow()
+  checkedStatus: (type)->
+    if type is 'public' then true else false
 
 Template.oldHast.events
+  'click .onoffswitch-checkbox': (event) ->
+    hastId = event.target.attributes['data-hastId'].value
+    Meteor.call "updateType", hastId, event.target.checked
   'click .delete-btn': (event) ->
     hastId = event.target.attributes['data-hastId'].value
     bootbox.confirm "Are you sure to delete?", (result) ->

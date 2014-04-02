@@ -1,54 +1,40 @@
-@getParameterByName = (name) ->
-  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]")
-  regex = new RegExp("[\\?&]" + name + "=([^&#]*)")
-  results = regex.exec(location.search)
-  if results?
-    decodeURIComponent(results[1].replace(/\+/g, " "))
-  else
-    ''
+Router.configure
+  layoutTemplate: 'layout'
 
-Meteor.Router.add
-  "/":
-    as: "home"
-    to: ->
+Router.map ->
+
+  @route 'home',
+    path: '/'
+    template: 'Hast'
+    onBeforeAction: ->
       Session.set "isDemoMode", true
-      if getParameterByName('f') is 'true'
+      if @params.f is 'true'
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false
-      "Hast"
-  "/archives":
-    to: ->
-      "oldHast"
-    as: "archives"
-  "/hast/:id":
-    as: 'hastIdRoute'
-    to: (id) ->
+
+  @route 'oldHast',
+    template: 'oldHast'
+    path: '/archives'
+    waitOn: ->
+      Meteor.subscribe "oldHast"
+    data: ->
+      files = Files.find({userId: Meteor.userId()}, {sort: {submitted: -1}})
+      return {
+        files: files
+      }
+
+  @route 'hast',
+    path: '/hast/:_id'
+    template: 'Hast'
+    onBeforeAction: ->
+      id = @params._id
       Session.set "isDemoMode", false
       Session.set "hastId", id
-      if getParameterByName('f') is 'true'
+      if @params.f is 'true'
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false
-      "Hast"
-  "*":
-    as: "not_found"
-    to: "not_found"
 
-Template.setup.rendered = ->
-  if !window._gaq?
-    window._gaq = []
-    _gaq.push(['_setAccount', 'UA-42227346-1'])
-    _gaq.push(['_trackPageview'])
-
-    (->
-      ga = document.createElement('script')
-      ga.type = 'text/javascript'
-      ga.async = true
-      gajs = '.google-analytics.com/ga.js'
-      ga.src = if 'https:' is document.location.protocol then\
-        'https://ssl'+gajs else\
-        'http://www'+gajs
-      s = document.getElementsByTagName('script')[0]
-      s.parentNode.insertBefore(ga, s)
-    )()
+  @route 'not_found',
+    path: "*"

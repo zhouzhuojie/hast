@@ -328,7 +328,7 @@ Meteor.startup ->
             @setDataListener()
             dataDeferred.resolve()
           else
-            Meteor.Router.to '/404'
+            Router.go '/404'
       return dataDeferred.promise()
 
   class SingletonPanel
@@ -363,7 +363,7 @@ Template.Hast.events
         content: panel.editor.getValue()
         (error, result) ->
           flashMessage result.message
-          Meteor.Router.to "/hast/" + result.fileId
+          Router.go '/hast/' + result.fileId
           bootbox.alert "
             Congratulations! Your hast has been saved in the cloud.
             You can easily manage them in the archives.

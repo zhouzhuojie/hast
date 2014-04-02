@@ -8,10 +8,12 @@
   <link id="theme-link" rel="stylesheet" type="text/css" href="/theme/hacky.css" />
   <link id="transition-link" rel="stylesheet" type="text/css" href="/transition/none.css" />
 </head>
-<body>
-  {{renderPage}}
-  {{>setup}}
-</body>
+
+<template name="layout">
+{{> header}}
+{{> yield}}
+{{> setup}}
+</template>
 
 <template name="header">
 <header class="navbar full-screen-related">
@@ -21,14 +23,14 @@
     </a>
     <ul class="nav">
       <li>
-      <a href="{{homePath}}">Home</a>
+      <a href="{{pathFor 'home'}}">Home</a>
       </li>
       {{#if currentUser}}
       <li>
-      <a href="{{archivesPath}}">Archives</a>
+      <a href="{{pathFor 'oldHast'}}">Archives</a>
       </li>
       {{/if}}
-      <li>{{loginButtons}}</li>
+      <li>{{> loginButtons}}</li>
     </ul>
     <ul class="nav pull-right messages">
       <li class="message-notice-wrapper"><span class="label" id="message-notice"></span></li>
@@ -38,7 +40,6 @@
 </template>
 
 <template name="not_found">
-{{> header}}
 <div class="page-404">
   <h1>// Hast Not Found, Oops...</h1>
   <span><h4>This page does not exist or the hast is private.</h4></span>
@@ -48,7 +49,6 @@
 </template>
 
 <template name="Hast">
-{{> header}}
 <div class="new-hast-box row-fluid mode-isDemoMode-{{mode}}">
   <div class="deck-box span8">
     <div class="deck-container full-screen-related" id="deck-container"></div>
@@ -73,7 +73,7 @@
         <span class="editor-header-message"></span>
       </h4>
     </div>
-    <div id="editor" />
+    <div id="editor"></div>
   </div>
   <div class="exit-full-screen-area full-screen-related">
     <div class="full-screen-btn-group">
@@ -120,7 +120,6 @@
 </template>
 
 <template name="oldHast">
-{{> header}}
 {{#if currentUser}}
 <div class="archives-box">
   {{#each files}}
@@ -132,22 +131,26 @@
               Share
             </td>
             <td>
-              <span class="switch switch-mini" data-on="info" data-on-label="&#10004;" data-off-label="&#10008;">
-                <input type="checkbox" {{checkedStatus type}} data-hastId="{{_id}}"/>
-              </span>
+              <div class="onoffswitch">
+                  <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switch-{{_id}}" data-hastId="{{_id}}" checked={{checkedStatus type}}>
+                  <label class="onoffswitch-label" for="switch-{{_id}}">
+                      <div class="onoffswitch-inner"></div>
+                      <div class="onoffswitch-switch"></div>
+                  </label>
+              </div>
             </td>
           </tr>
         </table>
         <div class="btn btn-warning btn-mini btn-block delete-btn" data-hastId="{{_id}}">Delete</div>
     </div>
     <h4>
-      <a href="{{hastIdRoutePath _id}}">{{title}}</a>
+      <a href="{{pathFor 'hast'}}">{{title}}</a>
     </h4>
     <p>
       {{#if shortUrl}}
       <span class="shortUrlLink">{{shortUrl}}</span>
       {{else}}
-      <span class="shortUrlLink">hast.me{{hastIdRoutePath _id}}</span>
+      <span class="shortUrlLink">hast.me{{pathFor 'hast'}}</span>
       <span class="label label-info getShortUrl-btn" data-hastId="{{_id}}">get shortUrl</span>
       {{/if}}
     </p>
@@ -174,7 +177,6 @@
 </div>
 {{else}}
 {{/if}}
-
 </template>
 
 <template name="setup"></template>
