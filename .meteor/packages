@@ -10,7 +10,6 @@ flatstrap
 coffeescript
 spiderable
 standard-app-packages
-page-js-ie-support
 moment
 device-detection
 apm
