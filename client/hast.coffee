@@ -349,6 +349,10 @@ Meteor.startup ->
 Template.Hast.rendered = ->
   window.panel = window.SingletonPanel?.get()
 
+Deps.autorun ->
+  Session.get "isDemoMode"
+  window.panel = window.SingletonPanel?.get()
+
 Template.Hast.events
   "click .deck-prev-link": ->
     $.deck('prev')

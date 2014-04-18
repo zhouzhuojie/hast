@@ -27,13 +27,13 @@
       },
       "apm": {
         "git": "https://github.com/arunoda/meteor-apm-client.git",
-        "tag": "v0.2.14",
-        "commit": "3727371164f28d4fbf50efb12a9c75617198b596"
+        "tag": "v1.0.0",
+        "commit": "672c94c9383ecca86da5157fa28fd1bcc754c7c3"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.7.0",
-        "commit": "05f34bc48c4cad9fdaa366c1ddcabe6980232ece"
+        "tag": "v0.7.1",
+        "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
       },
       "accounts-ui-bootstrap-dropdown": {
         "git": "https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown.git",
@@ -42,8 +42,8 @@
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
-        "tag": "v0.2.2",
-        "commit": "8bc53798fe5965669ae67c72f91829fcfdceabfd"
+        "tag": "v0.2.4",
+        "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
       }
     }
   }
