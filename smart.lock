@@ -27,8 +27,8 @@
       },
       "apm": {
         "git": "https://github.com/arunoda/meteor-apm-client.git",
-        "tag": "v1.0.0",
-        "commit": "672c94c9383ecca86da5157fa28fd1bcc754c7c3"
+        "tag": "v1.0.2",
+        "commit": "361c82dfe2a0b8ea00c63fac6ce446abb13db6f8"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
