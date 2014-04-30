@@ -8,7 +8,7 @@ Handlebars.registerHelper '$or', (a, b) ->
   return (a || b)
 
 Meteor.startup ->
-  window.flashMessage =  (message, time=3000) ->
+  window.flashMessage =  (message, time=5000) ->
     $("#message-notice")
       .stop(true, true)
       .html(message)
@@ -142,21 +142,21 @@ Meteor.startup ->
         , 200)
 
     init: ->
-      @setEditor()
-      @setFullScreenHandler()
-      flashMessage('Loading...', 10000)
-      setData = @setData()
-      setData.done =>
-        flashMessage('Loaded', 1000)
-        @refreshDeck()
-        @handleDeckChange()
-        @setPageNum()
-        @setMathJax()
-        @refreshTheme()
-        @refreshTransition()
-        @handleEditorChange()
-      @setPanelActiveListener()
-      return
+      if document.getElementById('editor')?
+        @setEditor()
+        @setFullScreenHandler()
+        flashMessage('Loading...', 10000)
+        setData = @setData()
+        setData.done =>
+          flashMessage('Loaded', 1000)
+          @refreshDeck()
+          @handleDeckChange()
+          @setPageNum()
+          @setMathJax()
+          @refreshTheme()
+          @refreshTransition()
+          @handleEditorChange()
+        @setPanelActiveListener()
 
     setFullScreenHandler: ->
       Deps.autorun =>
