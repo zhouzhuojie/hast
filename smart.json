@@ -5,6 +5,7 @@
     "device-detection": {},
     "apm": {},
     "iron-router": {},
-    "accounts-ui-bootstrap-dropdown": {}
+    "accounts-ui-bootstrap-dropdown": {},
+    "module-loader": {}
   }
 }

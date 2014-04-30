@@ -7,7 +7,8 @@
       "device-detection": {},
       "apm": {},
       "iron-router": {},
-      "accounts-ui-bootstrap-dropdown": {}
+      "accounts-ui-bootstrap-dropdown": {},
+      "module-loader": {}
     },
     "packages": {
       "moment": {
@@ -39,6 +40,11 @@
         "git": "https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown.git",
         "tag": "v0.8.3",
         "commit": "a7af8a52e4e74db020a69b158a8f992797b8b0b0"
+      },
+      "module-loader": {
+        "git": "https://github.com/apendua/module-loader.git",
+        "tag": "v0.5.1",
+        "commit": "06c4f220272fb10dadec3ff431a47ce58e84cc8f"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

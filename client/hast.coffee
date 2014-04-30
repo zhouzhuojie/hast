@@ -46,6 +46,23 @@ Meteor.startup ->
         lineRatio: 1.7
         fontRatio: 90
 
+    init: ->
+      if document.getElementById('editor')?
+        @setEditor()
+        @setFullScreenHandler()
+        flashMessage('Loading...', 10000)
+        setData = @setData()
+        setData.done =>
+          flashMessage('Loaded', 1000)
+          @setMathJax()
+          @refreshDeck()
+          @handleDeckChange()
+          @setPageNum()
+          @refreshTheme()
+          @refreshTransition()
+          @handleEditorChange()
+        @setPanelActiveListener()
+
     setEditor: ->
       @editor = ace.edit('editor')
       @editor.setTheme "ace/theme/chrome"
@@ -133,30 +150,12 @@ Meteor.startup ->
         @setTimerSave =>
           @saveData()
           @refreshDeck()
-          @refreshMathJax("deck-container")
 
       @editor.getSelection().on "changeCursor", _.debounce(
         =>
           targetSlide = @getPageNumFromEditor()
           $.deck "go", targetSlide
         , 200)
-
-    init: ->
-      if document.getElementById('editor')?
-        @setEditor()
-        @setFullScreenHandler()
-        flashMessage('Loading...', 10000)
-        setData = @setData()
-        setData.done =>
-          flashMessage('Loaded', 1000)
-          @refreshDeck()
-          @handleDeckChange()
-          @setPageNum()
-          @setMathJax()
-          @refreshTheme()
-          @refreshTransition()
-          @handleEditorChange()
-        @setPanelActiveListener()
 
     setFullScreenHandler: ->
       Deps.autorun =>
@@ -200,30 +199,27 @@ Meteor.startup ->
               transition : @transition
 
     setMathJax: ->
-      do ->
-        head = document.getElementsByTagName("head")[0]
-        script = undefined
-        script = document.createElement("script")
-        script.type = "text/x-mathjax-config"
-        script[((if window.opera then "innerHTML" else "text"))] =
-          "MathJax.Hub.Config({" +
-          "  tex2jax: { inlineMath: [['$','$'], ['\\\\(','\\\\)']] }," +
-          "  processEscapes: true," +
-          "  processEnvironments: true," +
-          "  showProcessingMessages: false, " +
-          "  'HTML-CSS': {styles: {'.MathJax_Display': {'margin': 0}}}" +
-          "});"
-        head.appendChild script
-        script = document.createElement("script")
-        script.type = "text/javascript"
-        script.src = "http://cdn.mathjax.org/mathjax/latest/MathJax.js" +
-          "?config=TeX-AMS-MML_HTMLorMML"
-        head.appendChild script
-      Meteor.setTimeout (=> @refreshMathJax("deck-container")), 1000
+      unless window.MathJax?
+        ModuleLoader.define 'mathjax',
+          source: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+          verify: -> window.MathJax
+          loaded: (MathJax) ->
+            MathJax.Hub.Config
+              showProcessingMessages: false,
+              tex2jax:
+                inlineMath: [['$','$'], ['\\(','\\)']]
+              processEscapes: true
+              processEnvironments: true
+              showProcessingMessages: false
+              skipStartupTypeset: true
+              'HTML-CSS':
+                styles: {'.MathJax_Display': {'margin': 0}}
+        ModuleLoader.ready 'mathjax', (MathJax) =>
+          @refreshDeck()
 
     refreshMathJax: (elementId) ->
-      MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
-
+      if MathJax?
+        MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
 
     setPanelActiveListener: ->
       window.focus =>
@@ -253,6 +249,7 @@ Meteor.startup ->
       Prism.highlightAll()
       $.deck ".slide"
       $.deck "go", @currentSlide
+      @refreshMathJax "deck-container"
 
     refreshCurrentDeck: ->
       if @editor.getReadOnly() is false
@@ -266,7 +263,7 @@ Meteor.startup ->
         Mathjaxutils?.replace_math(@converter(slideMd), maths)
       )
       Prism.highlightAll()
-      @refreshMathJax("deck-current")
+      @refreshMathJax "deck-current"
 
     setDataListener: ->
       unless @isOwner
@@ -289,7 +286,6 @@ Meteor.startup ->
               @transition = fields.transition
               @refreshTransition()
             @refreshDeck
-            @refreshMathJax
           , 100
           , false
         )
@@ -375,9 +371,6 @@ Template.Hast.events
       )
     else
       flashMessage "Oops, please log in to save.", 6000
-
-  "click .mathjax-btn": ->
-    window.panel.refreshMathJax 'deck-container'
 
   "click .full-screen-btn": ->
     Session.set 'isInFullScreen', true
