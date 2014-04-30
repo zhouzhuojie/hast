@@ -12,8 +12,8 @@
     "packages": {
       "moment": {
         "git": "https://github.com/acreeger/meteor-moment.git",
-        "tag": "v2.5.1",
-        "commit": "8c9bc5d3fc96705057737cb9743d555417f6e551"
+        "tag": "v2.6.0",
+        "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
       },
       "flatstrap": {
         "git": "https://github.com/fraherm/flatstrap.git",
@@ -27,8 +27,8 @@
       },
       "apm": {
         "git": "https://github.com/arunoda/meteor-apm-client.git",
-        "tag": "v1.0.2",
-        "commit": "361c82dfe2a0b8ea00c63fac6ce446abb13db6f8"
+        "tag": "v1.2.3",
+        "commit": "b299d8506689d9f21aa3af9bfe7dc367a9dbcc3a"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
