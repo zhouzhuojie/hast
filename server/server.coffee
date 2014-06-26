@@ -1,7 +1,5 @@
 Url = new Meteor.Collection("url")
 
-Meteor.startup ->
-
 Router.map ->
   @route 'shortUrl', {
     where: 'server',
