@@ -1,9 +1,6 @@
 Url = new Meteor.Collection("url")
 
 Meteor.startup ->
-  if _.has Meteor.settings, 'apmKey'
-    settings = Meteor.settings
-    Apm.connect settings.apmKey, settings.apmSecret
 
 Router.map ->
   @route 'shortUrl', {

@@ -12,7 +12,6 @@ spiderable
 standard-app-packages
 moment
 device-detection
-apm
 iron-router
 accounts-ui-bootstrap-dropdown
 module-loader

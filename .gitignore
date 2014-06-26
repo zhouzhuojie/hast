@@ -3,3 +3,5 @@
 deploy.sh
 server/config.coffee
 settings.json
+log
+tmp

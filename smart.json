@@ -3,7 +3,6 @@
     "moment": {},
     "flatstrap": {},
     "device-detection": {},
-    "apm": {},
     "iron-router": {},
     "accounts-ui-bootstrap-dropdown": {},
     "module-loader": {}

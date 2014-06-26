@@ -5,7 +5,6 @@
       "moment": {},
       "flatstrap": {},
       "device-detection": {},
-      "apm": {},
       "iron-router": {},
       "accounts-ui-bootstrap-dropdown": {},
       "module-loader": {}
@@ -25,11 +24,6 @@
         "git": "https://github.com/mystor/meteor-device-detection.git",
         "tag": "v0.1.6",
         "commit": "a7909c2319a694b9caa959164485d7413dced435"
-      },
-      "apm": {
-        "git": "https://github.com/arunoda/meteor-apm-client.git",
-        "tag": "v1.2.3",
-        "commit": "b299d8506689d9f21aa3af9bfe7dc367a9dbcc3a"
       },
       "iron-router": {
         "git": "https://github.com/EventedMind/iron-router.git",
