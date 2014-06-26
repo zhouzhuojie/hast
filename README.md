@@ -1,6 +1,6 @@
 Hast
 =========
-Hast is a WYSIWYG markdown flavor presentation tool made for everyone! We love markdown, did I mention it? It uses github style markdown. It quickly does the real time broadcasting and hot pushing changes. Hast uses Meteor, DeckJS, aceEditor, etc. Now, it supports Meteor 0.8.0.
+Hast is a WYSIWYG markdown flavor presentation tool made for everyone! We love markdown, did I mention it? It uses github style markdown. It quickly does the real time broadcasting and hot pushing changes. Hast uses Meteor, DeckJS, aceEditor, etc.
 
 Website: [Hast.me](http://hast.me)
 
