@@ -9,12 +9,6 @@ How it works
 
 [Video Demo at Youtube](http://www.youtube.com/watch?v=PuqrOCtjVcI)
 
-Make sure you have NodeJS, Meteor, Meteorite installed.
-```bash
-$ curl https://install.meteor.com | /bin/sh
-$ npm install -g meteorite
-```
-
 Clone the repo and run.
 ```bash
 $ git clone --recursive https://github.com/zhouzhuojie/hast.git
