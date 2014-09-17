@@ -19,7 +19,8 @@ Clone the repo and run.
 ```bash
 $ git clone --recursive https://github.com/zhouzhuojie/hast.git
 $ cd hast
-$ mrt
+$ meteor update
+$ meteor
 ```
 
 Sync between the editor and presentation
