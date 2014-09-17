@@ -5,3 +5,4 @@ server/config.coffee
 settings.json
 log
 tmp
+server/kadira.js
