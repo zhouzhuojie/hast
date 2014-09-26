@@ -5,6 +5,7 @@ Router.map ->
     where: 'server',
     path: '/s/:shortUrlName',
     action: ->
+
       shortUrlName = @params.shortUrlName
       u = Url.findOne shortUrlName
       if u
@@ -12,6 +13,7 @@ Router.map ->
         @response.writeHead '302', {'Location': "/hast/#{hastId}"}
       else
         @response.writeHead '302', {'Location': "/404"}
+      @response.end()
   }
 
 Meteor.publish "hast", (hastId) ->
