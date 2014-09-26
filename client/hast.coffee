@@ -1,5 +1,5 @@
 Deps.autorun ->
-  Meteor.subscribe "hast", Session.get("hastId")
+  Meteor.subscribe "hast", Session.get("hastId") || ''
 
 Template.Hast.mode = ->
   Session.get 'isDemoMode'
