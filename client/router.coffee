@@ -12,6 +12,7 @@ Router.map ->
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false
+      @next()
 
   @route 'oldHast',
     template: 'oldHast'
@@ -35,6 +36,7 @@ Router.map ->
         Session.set "isInFullScreen", true
       else
         Session.set "isInFullScreen", false
+      @next()
 
   @route 'not_found',
     path: "*"
