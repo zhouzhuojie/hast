@@ -38,5 +38,5 @@ Router.map ->
         Session.set "isInFullScreen", false
       @next()
 
-  @route 'not_found',
-    path: "*"
+  @route 'notFound',
+    path: "/(.*)"
