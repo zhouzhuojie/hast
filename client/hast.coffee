@@ -46,7 +46,7 @@ Meteor.startup ->
         fontRatio: 60
       @fullScreenFitRatio =
         lineRatio: 1.7
-        fontRatio: 70
+        fontRatio: 90
 
     init: ->
       if document.getElementById('editor')?
