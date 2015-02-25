@@ -17,6 +17,8 @@ Meteor.startup ->
 
   class Panel
     constructor: ->
+      kramed.options
+        katex: true
       @cache = kizzy 'local-hast'
       @cacheExpire = 1000*3600*48 # expires after 2 days
       @markedOptions =
@@ -28,8 +30,7 @@ Meteor.startup ->
         smartLists: true,
         smartypants: false,
         langPrefix: 'language-',
-      @converter = (md) ->
-        marked(md, @markOptions)
+      @converter = (md) -> kramed md
       @currentSlide = 0
       @isSyncDeck = true
       @isOwner = false
@@ -44,7 +45,7 @@ Meteor.startup ->
         fontRatio: 60
       @fullScreenFitRatio =
         lineRatio: 1.7
-        fontRatio: 90
+        fontRatio: 70
 
     init: ->
       if document.getElementById('editor')?
@@ -54,7 +55,6 @@ Meteor.startup ->
         setData = @setData()
         setData.done =>
           flashMessage('Loaded', 1000)
-          @setMathJax()
           @refreshDeck()
           @handleDeckChange()
           @setPageNum()
@@ -68,6 +68,7 @@ Meteor.startup ->
       @editor.setTheme "ace/theme/chrome"
       @editor.getSession().setMode "ace/mode/markdown"
       @editor.getSession().setUseWrapMode true
+      @editor.setFontSize 15
       @Range = ace.require('ace/range').Range
 
     getPageRange: (page)->
@@ -198,29 +199,6 @@ Meteor.startup ->
             Files.update Session.get("hastId"), $set:
               transition : @transition
 
-    setMathJax: ->
-      unless window.MathJax?
-        ModuleLoader.define 'mathjax',
-          source: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-          verify: -> window.MathJax
-          loaded: (MathJax) ->
-            MathJax.Hub.Config
-              showProcessingMessages: false,
-              tex2jax:
-                inlineMath: [['$','$'], ['\\(','\\)']]
-              processEscapes: true
-              processEnvironments: true
-              showProcessingMessages: false
-              skipStartupTypeset: true
-              'HTML-CSS':
-                styles: {'.MathJax_Display': {'margin': 0}}
-        ModuleLoader.ready 'mathjax', (MathJax) =>
-          @refreshDeck()
-
-    refreshMathJax: (elementId) ->
-      if MathJax?
-        MathJax.Hub.Queue ["Typeset", MathJax.Hub, elementId]
-
     setPanelActiveListener: ->
       window.focus =>
         @windowActive = true
@@ -228,9 +206,7 @@ Meteor.startup ->
         @windowActive = false
 
     refreshDeck: ->
-      processedText = Mathjaxutils?.remove_math(@editor.getValue())
-      slidesMd = processedText[0].split(@pageDivider)
-      maths = processedText[1]
+      slidesMd = @editor.getValue().split(@pageDivider)
       getSlidesHtmls = (Mds, c) ->
         _.reduce _.map(Mds, (slide, index) ->
           if index is 0
@@ -240,30 +216,19 @@ Meteor.startup ->
           else
             "<section class=\"slide\">#{c(slide)}</section>"
         ), (a, b) -> (a + b)
-      renderedHtml = Mathjaxutils?.replace_math(
-        getSlidesHtmls(slidesMd, @converter)
-      , maths
-      )
+      renderedHtml = getSlidesHtmls(slidesMd, @converter)
       $("#deck-container").html renderedHtml
       $("#deck-container").find('a').attr('target', '_blank')
       Prism.highlightAll()
       $.deck ".slide"
       $.deck "go", @currentSlide
-      @refreshMathJax "deck-container"
 
     refreshCurrentDeck: ->
       if @editor.getReadOnly() is false
         flashMessage('Saving...')
-      processedText = Mathjaxutils?.remove_math(
-        (@editor.getValue()).split(@pageDivider)[@currentSlide]
-      )
-      slideMd = processedText[0]
-      maths = processedText[1]
-      $.deck('getSlide', @currentSlide).html(
-        Mathjaxutils?.replace_math(@converter(slideMd), maths)
-      )
+      slideMd = @editor.getValue().split(@pageDivider)[@currentSlide]
+      $.deck('getSlide', @currentSlide).html(@converter(slideMd))
       Prism.highlightAll()
-      @refreshMathJax "deck-current"
 
     setDataListener: ->
       unless @isOwner
