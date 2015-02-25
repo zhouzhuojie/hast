@@ -15,6 +15,5 @@ iron:router
 mrt:accounts-ui-bootstrap-dropdown@0.8.3
 mrt:flatstrap@1.0.0
 meteorhacks:kadira
-
+rexzh0u:katex-cdn
 rexzh0u:kramed
-simple:katex

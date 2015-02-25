@@ -56,12 +56,12 @@ reactive-dict@1.0.5
 reactive-var@1.0.4
 reload@1.1.2
 retry@1.0.2
-rexzh0u:kramed@1.0.1
+rexzh0u:katex-cdn@0.1.0
+rexzh0u:kramed@1.0.2
 routepolicy@1.0.4
 service-configuration@1.0.3
 session@1.0.5
 sha@1.0.2
-simple:katex@1.0.5
 spacebars@1.0.5
 spacebars-compiler@1.0.4
 spiderable@1.0.6

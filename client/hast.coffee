@@ -1,8 +1,9 @@
 Deps.autorun ->
   Meteor.subscribe "hast", Session.get("hastId") || ''
 
-Template.Hast.mode = ->
-  Session.get 'isDemoMode'
+Template.Hast.helpers
+  mode: ->
+    Session.get 'isDemoMode'
 
 Handlebars.registerHelper '$or', (a, b) ->
   return (a || b)
