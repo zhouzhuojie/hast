@@ -261,8 +261,8 @@ Meteor.startup ->
         @editor.getValue().split(@pageDivider)[0]
       ).split("\n")[0]
 
-      if titleString.indexOf("<h1>") is 0
-        titleString.slice 4, -5
+      if titleString.indexOf("<h1") is 0
+        $(titleString).text()
       else
         "Untitled"
 
